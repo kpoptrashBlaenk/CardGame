@@ -1,0 +1,74 @@
+/* prepared */
+.temp-health {
+    Height: 3vh;
+    Width: 3vh;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    font-weight: bold;
+    font-size: 40%;
+    left: 72%;
+    top: 76%;
+    z-index: 1
+}
+
+.card-space {
+    width: 9.765vh;
+    height: 14.931vh;
+    border: solid 1px black;
+    font-size: 7vh;
+}
+
+.card {
+    width: 9.765vh;
+    height: 14.931vh;
+}
+
+.side {
+    left: 135%;
+    top: 64%;
+    height: 8vh;
+}
+
+.button-end-turn {
+    height: 4vh;
+    width: 4vw;
+    font-size:80%;
+}
+
+/* size */
+
+
+/* position */
+.rotate-180 {
+    transform: rotate(180deg);
+}
+
+.top-3{
+    top:3vh;
+}
+
+.bottom-3{
+    bottom:3vh;
+}
+
+.bottom-0{
+    bottom:0vh;
+}
+
+/* fancy */
+.fat-border {
+    border: solid 3px black;
+}
+
+.link {
+    cursor: pointer;
+}
+
+.trans-bot-100{
+    transition: bottom 100ms;
+}
+
+.trans-top-100{
+    transition: top 100ms;
+}
