@@ -6,7 +6,8 @@ addEventListener("load", (event) => {
     //ctrl + shift + + -> expand
 
     //!!!!!!!BUGS!!!!!!!
-
+    //Can place card in the second row...
+    //Can draw and place cards on enemy turn...
     //NEXT: Guardian
 
     //html elements
@@ -38,45 +39,11 @@ addEventListener("load", (event) => {
     const enemyDeckLength = 8
     const allCards = [
         {
-            name: 'Kingfisher', cost: {
-                type: 'blood', cost: 1
+            name: 'Kingfisher',
+            cost: {
+                type: 'blood',
+                cost: 1
             },
-<<<<<<< Updated upstream
-            attack: 1, health: 1, traits: ['Waterborne', 'Airborne'], path: 'Cards/Avian/Kingfisher.webp', element: ''
-        }, {
-            name: 'Sparrow', cost: {
-                type: 'blood', cost: 1
-            }, attack: 1, health: 2, traits: ['Airborne',], path: 'Cards/Avian/Sparrow.webp', element: ''
-        }, {
-            name: 'Raven', cost: {
-                type: 'blood', cost: 2
-            }, attack: 2, health: 3, traits: ['Airborne'], path: 'Cards/Avian/Raven.webp', element: ''
-        }, {
-            name: 'Turkey Vulture', cost: {
-                type: 'bones', cost: 8
-            }, attack: 3, health: 3, traits: ['Airborne'], path: 'Cards/Avian/TurkeyVulture.webp', element: ''
-        }, {
-            name: 'Stunted Wolf', cost: {
-                type: 'blood', cost: 1
-            }, attack: 2, health: 2, traits: [], path: 'Cards/Canine/Stunted_Wolf.webp', element: ''
-        }, {
-            name: 'Bloodhound', cost: {
-                type: 'blood', cost: 2
-            }, attack: 2, health: 3, traits: ['Guardian'], path: 'Cards/Canine/Bloodhound.webp', element: ''
-        }, {
-            name: 'Caged Wolf', cost: {
-                type: 'blood', cost: 2
-            }, attack: 0, health: 6, traits: ['Caged Wolf'], path: 'Cards/Canine/CagedWolf.webp', element: ''
-        }, {
-            name: 'Wolf', cost: {
-                type: 'blood', cost: 2
-            }, attack: 3, health: 2, traits: [], path: 'Cards/Canine/Wolf.webp', element: ''
-        }, {
-            name: 'Coyote', cost: {
-                type: 'bones', cost: 4
-            }, attack: 2, health: 1, traits: [], path: 'Cards/Canine/Coyote.webp', element: ''
-        },]
-=======
             attack: 1,
             health: 1,
             traits: [
@@ -147,7 +114,7 @@ addEventListener("load", (event) => {
                 cost: 2
             },
             attack: 2,
-            health: 8,
+            health: 3,
             traits: [
                 'Guardian'
             ],
@@ -193,17 +160,20 @@ addEventListener("load", (event) => {
             element: ''
         },
     ]
->>>>>>> Stashed changes
     let squirrelDeck = [{
-        name: 'Squirrel', cost: {
-            type: 'none', cost: 0
-        }, attack: 0, health: 1, traits: [], path: 'Cards/Squirrel.webp', element: ''
+        name: 'Squirrel',
+        cost: {
+            type: 'none',
+            cost: 0
+        },
+        attack: 0,
+        health: 1,
+        traits: [],
+        path: 'Cards/Squirrel.webp',
+        element: ''
     }]
     let enemyDeck = []
     let waterborne = []
-<<<<<<< Updated upstream
-    const traitRules = ['Airborne: Before attack -> If true, defender.value = false', 'Waterborne: After attack -> If true, attacker.img = CardBack // After Enemy turn -> space.img = space.value.path', 'Hoarder: Remove', 'Fledgling: Remove',]
-=======
     const traitRules = [
         'Airborne: Before attack -> If true, defender.value = false',
         'Waterborne: After attack -> If true, attacker.img = CardBack // After Enemy turn -> space.img = space.value.path',
@@ -211,7 +181,6 @@ addEventListener("load", (event) => {
         'Fledgling: Remove',
         'Guardian: If defender.value = null, move guardian towards it',
     ]
->>>>>>> Stashed changes
 
 
     //turn
@@ -222,10 +191,6 @@ addEventListener("load", (event) => {
         } else {
             pushBoard(0, 1)
             boardFight(enemyLine, playerLine)
-            twoSpaces = false
-            while (twoSpaces === false) {
-                newEnemyBoard(enemyStartBoard)
-            }
         }
         turn++
         draw = true
@@ -294,6 +259,7 @@ addEventListener("load", (event) => {
                             if (placeCardSpace.length >= selectedCard.cost.cost) {
                                 blackBorder(placeCardSpace)
                                 selectedHand = !selectedHand
+
                             } else {
                                 selectedHand = false
                                 removeBlackBordersAll()
@@ -329,12 +295,13 @@ addEventListener("load", (event) => {
     for (let j = 1; j <= boardLength; j++) {
         for (let i = (j - 1) * boardLength; i < boardLength * j; i++) {
             boardSpaces.push({
-                element: board[i], line: j - 1, column: (i + boardLength) % boardLength, value: null,
+                element: board[i],
+                line: j - 1,
+                column: (i + boardLength) % boardLength,
+                value: null,
             });
         }
     } //mapping board
-
-    //enemy board
     let twoSpaces = false;
     while (twoSpaces === false) {
         newEnemyBoard(enemyStartBoard)
@@ -352,20 +319,17 @@ addEventListener("load", (event) => {
                 if (selectedCard.cost.type === 'blood') {
                     if (sacrificing.length >= selectedCard.cost.cost - 1) {
                         if (sacrificingComplete === true) {
-                            createPlaceCardSpace()
-                            for (let j = 0; j < placeCardSpace.length; j++) {
-                                if (placeCardSpace[j].element === board[i]) {
-                                    placeCardFromHand(boardSpaces[i], selectedCard)
-                                    selectedHand = false
-                                    bones = bones + [...sacrificing].length
-                                    bonesCounter.innerText = 'Bones: ' + bones
-                                    emptyArray(sacrificing)
-                                    sacrificingComplete = false
-                                    removeBlackBordersAll()
-                                }
+                            if (boardSpaces[i].line === playerPlaceLine) {
+                                placeCardFromHand(boardSpaces[i], selectedCard)
+                                selectedHand = false
+                                bones = bones + [...sacrificing].length
+                                bonesCounter.innerText = 'Bones: ' + bones
+                                emptyArray(sacrificing)
+                                sacrificingComplete = false
+                                removeBlackBordersAll()
                             }
                         } else {
-                            if (boardSpaces[i].value !== null && boardSpaces[i].line === playerPlaceLine) {
+                            if (boardSpaces[i].value !== null) {
                                 sacrificing.push(boardSpaces[i])
                                 for (let j = 0; j < placeCardSpace.length; j++) {
                                     if (placeCardSpace[j].element === board[i]) {
@@ -381,11 +345,13 @@ addEventListener("load", (event) => {
                             }
                         }
                     } else {
-                        sacrificing.push(boardSpaces[i])
-                        for (let j = 0; j < placeCardSpace.length; j++) {
-                            if (placeCardSpace[j].element === board[i]) {
-                                placeCardSpace.splice(j, 1)
-                                break;
+                        if (boardSpaces[i].value !== null) {
+                            sacrificing.push(boardSpaces[i])
+                            for (let j = 0; j < placeCardSpace.length; j++) {
+                                if (placeCardSpace[j].element === board[i]) {
+                                    placeCardSpace.splice(j, 1)
+                                    break;
+                                }
                             }
                         }
                     }
@@ -403,6 +369,7 @@ addEventListener("load", (event) => {
 
         })
     }
+
 
     //main functions
     function deckDraw(deck, i) {
@@ -449,7 +416,6 @@ addEventListener("load", (event) => {
     function removeCardFromBoard(boardSpace) {
 
         removeCardImage(boardSpace)
-        console.log(boardSpace.element.querySelector('div'))
 
         if (boardSpace.element.querySelector('div') !== null) {
             boardSpace.element.removeChild(boardSpace.element.querySelector('div'))
@@ -467,54 +433,38 @@ addEventListener("load", (event) => {
 
     function placeCardFromHand(boardSpace, thisCard) {
 
-        if (boardSpace.line === playerPlaceLine) {
-            placeCard(boardSpace, thisCard)
+        placeCard(boardSpace, thisCard)
 
-            blackBorder(placeCardSpace)
+        blackBorder(placeCardSpace)
 
-            hand.splice(hand.indexOf(thisCard), 1);
-            handSpace.removeChild(thisCard.element)
+        hand.splice(hand.indexOf(thisCard), 1);
+        handSpace.removeChild(thisCard.element)
 
-            emptyArray(placeCardSpace)
-            thisCard = null
-        }
+        emptyArray(placeCardSpace)
+        thisCard = null
     }
 
     function newEnemyBoard(repetition) {
         let enemyBoard = []
-        for (let j = 0; j < boardLength; j++) {
-            if (boardSpaces[j].value === null) {
-                enemyBoard.push(boardSpaces[j])
-            }
+        for (let i = 0; i < repetition; i++) {
+            let number = Math.floor(Math.random() * 4)
+            enemyBoard.push(boardSpaces[number])
         }
-        if (enemyBoard.length > repetition) {
-            emptyArray(enemyBoard)
-
-            for (let i = 0; i < repetition; i++) {
-                let number = Math.floor(Math.random() * 4)
-                if (boardSpaces[number] !== null) {
-                    enemyBoard.push(boardSpaces[number])
-                }
-            }
-            if (enemyBoard[0] !== enemyBoard[1]) {
-                twoSpaces = true
-                for (let i = 0; i < enemyBoard.length; i++) {
-                    const currentSpace = enemyBoard[i]
-                    if (currentSpace.value === null) {
-                        const boardSymbol = currentSpace.element.querySelector('i')
-                        currentSpace.element.removeChild(boardSymbol)
-                    }
-
-                    addCardImage(enemyDeck[0].path, currentSpace.element, enemyLine)
-                    currentSpace.value = enemyDeck[0]
-
-                    enemyDeck.shift()
-                }
-            }
-        } else {
+        if (enemyBoard[0] !== enemyBoard[1]) {
             twoSpaces = true
-        }
+            for (let i = 0; i < enemyBoard.length; i++) {
+                const currentSpace = enemyBoard[i]
+                if (currentSpace.value === null) {
+                    const boardSymbol = currentSpace.element.querySelector('i')
+                    currentSpace.element.removeChild(boardSymbol)
+                }
 
+                addCardImage(enemyDeck[0].path, currentSpace.element, enemyLine)
+                currentSpace.value = enemyDeck[0]
+
+                enemyDeck.shift()
+            }
+        }
         emptyArray(enemyBoard)
     }
 
@@ -637,11 +587,12 @@ addEventListener("load", (event) => {
             addCardImage(cardBack, attacker.element, attacker.line)
         } else {
             waterborne.forEach(function (boardSpace) {
-                if (boardSpace.line === line) {
-                    removeCardImage(boardSpace)
-                    addCardImage(boardSpace.value.path, boardSpace.element, boardSpace.line)
+                    if (boardSpace.line === line) {
+                        removeCardImage(boardSpace)
+                        addCardImage(boardSpace.value.path, boardSpace.element, boardSpace.line)
+                    }
                 }
-            })
+            )
         }
     }
 
@@ -730,7 +681,8 @@ addEventListener("load", (event) => {
     function compareArrays(arrayToExtract, arrayToGet, valueToCompare) {
         let newArray = []
         arrayToExtract.forEach(function (arrayToExtract) {
-            if (arrayToExtract[valueToCompare] === arrayToGet) newArray.push(arrayToExtract)
+            if (arrayToExtract[valueToCompare] === arrayToGet)
+                newArray.push(arrayToExtract)
         })
         return newArray
     }
