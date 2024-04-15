@@ -1,5 +1,10 @@
 addEventListener("load", (event) => {
 
+    //Shortcuts:
+    //ctrl + shift + f1 -> comment in/out
+    //ctrl + shift + - -> collapse
+    //ctrl + shift + + -> expand
+
     //!!!!!!!BUGS!!!!!!!
 
     //NEXT: Guardian
@@ -36,6 +41,7 @@ addEventListener("load", (event) => {
             name: 'Kingfisher', cost: {
                 type: 'blood', cost: 1
             },
+<<<<<<< Updated upstream
             attack: 1, health: 1, traits: ['Waterborne', 'Airborne'], path: 'Cards/Avian/Kingfisher.webp', element: ''
         }, {
             name: 'Sparrow', cost: {
@@ -70,6 +76,124 @@ addEventListener("load", (event) => {
                 type: 'bones', cost: 4
             }, attack: 2, health: 1, traits: [], path: 'Cards/Canine/Coyote.webp', element: ''
         },]
+=======
+            attack: 1,
+            health: 1,
+            traits: [
+                'Waterborne',
+                'Airborne'
+            ],
+            path: 'Cards/Avian/Kingfisher.webp',
+            element: ''
+        },
+        {
+            name: 'Sparrow',
+            cost: {
+                type: 'blood',
+                cost: 1
+            },
+            attack: 1,
+            health: 2,
+            traits: [
+                'Airborne',
+            ],
+            path: 'Cards/Avian/Sparrow.webp',
+            element: ''
+        },
+        {
+            name: 'Raven',
+            cost: {
+                type: 'blood',
+                cost: 2
+            },
+            attack: 2,
+            health: 3,
+            traits: [
+                'Airborne'
+            ],
+            path: 'Cards/Avian/Raven.webp',
+            element: ''
+        },
+        {
+            name: 'Turkey Vulture',
+            cost: {
+                type: 'bones',
+                cost: 8
+            },
+            attack: 3,
+            health: 3,
+            traits: [
+                'Airborne'
+            ],
+            path: 'Cards/Avian/TurkeyVulture.webp',
+            element: ''
+        },
+        {
+            name: 'Stunted Wolf',
+            cost: {
+                type: 'blood',
+                cost: 1
+            },
+            attack: 2,
+            health: 2,
+            traits: [],
+            path: 'Cards/Canine/Stunted_Wolf.webp',
+            element: ''
+        },
+        {
+            name: 'Bloodhound',
+            cost: {
+                type: 'blood',
+                cost: 2
+            },
+            attack: 2,
+            health: 8,
+            traits: [
+                'Guardian'
+            ],
+            path: 'Cards/Canine/Bloodhound.webp',
+            element: ''
+        },
+        {
+            name: 'Caged Wolf',
+            cost: {
+                type: 'blood',
+                cost: 2
+            },
+            attack: 0,
+            health: 6,
+            traits: [
+                'Caged Wolf'
+            ],
+            path: 'Cards/Canine/CagedWolf.webp',
+            element: ''
+        },
+        {
+            name: 'Wolf',
+            cost: {
+                type: 'blood',
+                cost: 2
+            },
+            attack: 3,
+            health: 2,
+            traits: [],
+            path: 'Cards/Canine/Wolf.webp',
+            element: ''
+        },
+        {
+            name: 'Coyote',
+            cost: {
+                type: 'bones',
+                cost: 4
+            },
+            attack: 2,
+            health: 1,
+            traits: [],
+            path: 'Cards/Canine/Coyote.webp',
+            element: ''
+        },
+    ]
+>>>>>>> Stashed changes
     let squirrelDeck = [{
         name: 'Squirrel', cost: {
             type: 'none', cost: 0
@@ -77,7 +201,17 @@ addEventListener("load", (event) => {
     }]
     let enemyDeck = []
     let waterborne = []
+<<<<<<< Updated upstream
     const traitRules = ['Airborne: Before attack -> If true, defender.value = false', 'Waterborne: After attack -> If true, attacker.img = CardBack // After Enemy turn -> space.img = space.value.path', 'Hoarder: Remove', 'Fledgling: Remove',]
+=======
+    const traitRules = [
+        'Airborne: Before attack -> If true, defender.value = false',
+        'Waterborne: After attack -> If true, attacker.img = CardBack // After Enemy turn -> space.img = space.value.path',
+        'Hoarder: Remove',
+        'Fledgling: Remove',
+        'Guardian: If defender.value = null, move guardian towards it',
+    ]
+>>>>>>> Stashed changes
 
 
     //turn
@@ -313,7 +447,13 @@ addEventListener("load", (event) => {
     }
 
     function removeCardFromBoard(boardSpace) {
+
         removeCardImage(boardSpace)
+        console.log(boardSpace.element.querySelector('div'))
+
+        if (boardSpace.element.querySelector('div') !== null) {
+            boardSpace.element.removeChild(boardSpace.element.querySelector('div'))
+        }
 
         const symbol = document.createElement('i');
         if (boardSpace.line === 0 || boardSpace.line === boardHeight - 1) {
@@ -406,7 +546,7 @@ addEventListener("load", (event) => {
                 damageMultiplier = -1
             }
 
-            promises.push(() => boardFightAttack(attacker, defender, damageMultiplier))
+            promises.push(() => boardFightAttack(attacker, defender, defenders, damageMultiplier))
         }
         executeSequentially(promises).then(() => {
             if (attackers[0].line === playerLine) {
@@ -421,7 +561,7 @@ addEventListener("load", (event) => {
         })
     }
 
-    function boardFightAttack(attacker, defender, damageMultiplier) {
+    function boardFightAttack(attacker, defender, defenders, damageMultiplier) {
         if (attacker.value !== null) {
             return new Promise(resolve => {
                 setTimeout(function () {
@@ -438,21 +578,17 @@ addEventListener("load", (event) => {
                     }
 
                     if (defender.value === null || attacker.value.traits.includes('Airborne') || defender.value.traits.includes('Waterborne')) {
-                        damage = damage + attacker.value.attack * damageMultiplier
-                    } else if (attacker.value.attack !== 0) {
-                        defender.value.health = defender.value.health - attacker.value.attack
-                        if (defender.value.health <= 0) {
-                            removeCardFromBoard(defender)
-                            if (defender.line === playerLine) {
-                                bones = bones + 1
-                                bonesCounter.innerText = "Bones: " + bones
+                        if (defender.value === null) {
+                            for (let i = 0; i < defenders.length; i++) {
+                                if (defenders[i].value !== null && defenders[i].value.traits.includes('Guardian')) {
+                                    guardianTurn(attacker, defender, defenders[i])
+                                    break;
+                                }
                             }
-                            if (defender.element.querySelector('div') !== null) {
-                                defender.element.removeChild(defender.element.querySelector('div'))
-                            }
-                        } else {
-                            createTempHealth(defender.element, defender.value.health)
                         }
+                        damage = damage + attacker.value.attack * damageMultiplier
+                    } else {
+                        boardFightAttackSuccess(attacker, defender)
                     }
                     damageCounter.innerText = "Damage: " + damage
 
@@ -479,6 +615,21 @@ addEventListener("load", (event) => {
         }
     }
 
+    function boardFightAttackSuccess(attacker, defender) {
+        if (attacker.value.attack !== 0) {
+            defender.value.health = defender.value.health - attacker.value.attack
+            if (defender.value.health <= 0) {
+                removeCardFromBoard(defender)
+                if (defender.line === playerLine) {
+                    bones = bones + 1
+                    bonesCounter.innerText = "Bones: " + bones
+                }
+            } else {
+                createTempHealth(defender.element, defender.value.health)
+            }
+        }
+    }
+
     function waterborneTurn(condition, attacker, line) {
         if (condition) {
             waterborne.push(attacker)
@@ -494,16 +645,14 @@ addEventListener("load", (event) => {
         }
     }
 
-
-    //helper functions
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
+    function guardianTurn(attacker, defender, thisDefender) {
+        placeCard(defender, thisDefender.value)
+        removeCardFromBoard(thisDefender)
+        boardFightAttackSuccess(attacker, defender)
     }
 
+
+    //helper functions
     function addCardImage(imagePath, element, line) {
         const img = document.createElement('img');
         img.src = imagePath
@@ -554,6 +703,25 @@ addEventListener("load", (event) => {
         }
     }
 
+    function createTempHealth(boardSpace, health) {
+        const newHealthCircle = document.createElement('div')
+        newHealthCircle.classList.add('temp-health')
+        const newHealth = document.createElement('p')
+        newHealth.classList.add('start-50', 'top-50', 'translate-middle', 'position-absolute')
+        newHealth.innerHTML = health.toString()
+        newHealthCircle.appendChild(newHealth)
+
+        boardSpace.appendChild(newHealthCircle)
+    }
+
+
+    //other functions
+    function executeSequentially(promises) {
+        return promises.reduce((chain, promise) => {
+            return chain.then(() => promise());
+        }, Promise.resolve());
+    }
+
     function emptyArray(array) {
         array.splice(0, array.length)
 
@@ -567,21 +735,12 @@ addEventListener("load", (event) => {
         return newArray
     }
 
-    function createTempHealth(boardSpace, health) {
-        const newHealthCircle = document.createElement('div')
-        newHealthCircle.classList.add('temp-health')
-        const newHealth = document.createElement('p')
-        newHealth.classList.add('start-50', 'top-50', 'translate-middle', 'position-absolute')
-        newHealth.innerHTML = health.toString()
-        newHealthCircle.appendChild(newHealth)
-
-        boardSpace.appendChild(newHealthCircle)
-    }
-
-    function executeSequentially(promises) {
-        return promises.reduce((chain, promise) => {
-            return chain.then(() => promise());
-        }, Promise.resolve());
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
 });
