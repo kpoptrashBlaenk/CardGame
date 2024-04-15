@@ -96,8 +96,7 @@ addEventListener("load", (event) => {
             },
             attack: 2,
             health: 2,
-            traits: [
-            ],
+            traits: [],
             path: 'Cards/Canine/Stunted_Wolf.webp',
             element: ''
         },
@@ -137,8 +136,7 @@ addEventListener("load", (event) => {
             },
             attack: 3,
             health: 2,
-            traits: [
-            ],
+            traits: [],
             path: 'Cards/Canine/Wolf.webp',
             element: ''
         },
@@ -150,8 +148,7 @@ addEventListener("load", (event) => {
             },
             attack: 2,
             health: 1,
-            traits: [
-            ],
+            traits: [],
             path: 'Cards/Canine/Coyote.webp',
             element: ''
         },
@@ -204,15 +201,19 @@ addEventListener("load", (event) => {
     currentDeck = shuffleArray(currentDeck)
     for (let i = 0; i < deckSpace.length; i++) {
         deckSpace[i].addEventListener('click', (event) => {
-            if (draw === true) {
-                if (i === 0) {
-                    deckDraw(squirrelDeck, i)
+            if (turn % 2 === 0) {
+                if (draw === true) {
+                    if (i === 0) {
+                        deckDraw(squirrelDeck, i)
+                    } else {
+                        deckDraw(currentDeck, i)
+                    }
+                    console.log('Play a Card!')
                 } else {
-                    deckDraw(currentDeck, i)
+                    console.log('I already drew a card.')
                 }
-                console.log('Play a Card!')
             } else {
-                console.log('I already drew a card.')
+                console.log("It's the enemies turn")
             }
         })
     }
@@ -231,7 +232,7 @@ addEventListener("load", (event) => {
     console.log('Draw!')
     let selectedCard;
     handSpace.addEventListener('click', (event) => {
-        if (draw !== true) {
+        if (draw !== true && turn % 2 === 0) {
             for (let i = 0; i < hand.length; i++) {
                 if (hand[i].element === event.target.closest('td')) {
                     selectedCard = hand[i]
@@ -259,7 +260,7 @@ addEventListener("load", (event) => {
                             break;
 
                         case 'bones':
-                            if(bones >= selectedCard.cost.cost) {
+                            if (bones >= selectedCard.cost.cost) {
                                 createPlaceCardSpace()
                                 selectedHand = !selectedHand
                                 blackBorder(placeCardSpace)
@@ -272,6 +273,8 @@ addEventListener("load", (event) => {
                     }
                 }
             }
+        } else {
+            console.log("You can't play a card yet!")
         }
     })
 
@@ -310,7 +313,6 @@ addEventListener("load", (event) => {
                         if (sacrificingComplete === true) {
                             placeCardFromHand(boardSpaces[i], selectedCard)
                             selectedHand = false
-                            console.log([...sacrificing].length)
                             bones = bones + [...sacrificing].length
                             bonesCounter.innerText = 'Bones: ' + bones
                             emptyArray(sacrificing)
@@ -506,7 +508,7 @@ addEventListener("load", (event) => {
                         attackerImage.classList.add('bottom-3')
                     }
 
-                    if (defender.value === null || attacker.value.traits.includes('Airborne' || defender.value.traits.includes('Waterborne'))) {
+                    if (defender.value === null || attacker.value.traits.includes('Airborne') || defender.value.traits.includes('Waterborne')) {
                         damage = damage + attacker.value.attack * damageMultiplier
                     } else if (attacker.value.attack !== 0) {
                         defender.value.health = defender.value.health - attacker.value.attack
@@ -539,7 +541,6 @@ addEventListener("load", (event) => {
                         if (attacker.value.traits.includes('Waterborne')) {
                             waterborneTurn(true, attacker)
                         }
-
                         resolve()
                     }, 100)
                 }, 500)
