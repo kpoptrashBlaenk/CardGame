@@ -6,9 +6,10 @@ addEventListener("load", () => {
     //ctrl + shift + + -> expand
 
     //!!!!!!!BUGS!!!!!!!
-    //Can place card in the second row...
-    //Can draw and place cards on enemy turn...
-    //NEXT: Guardian
+    //enemy board bug
+    //same card can be sacrificed twice
+
+    //NEXT: Caged Wolf
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -180,6 +181,7 @@ addEventListener("load", () => {
         'Hoarder: Remove',
         'Fledgling: Remove',
         'Guardian: If defender.value = null, move guardian towards it',
+        'Caged: If death, then summon'
     ]
 
 
@@ -209,7 +211,7 @@ addEventListener("load", () => {
     for (let i = 0; i < squirrelLength - 1; i++) {
         squirrelDeck.push(squirrelDeck[i]);
     }
-    let currentDeck = shuffleArray(allCards)
+    let currentDeck = allCards
     currentDeck = shuffleArray(currentDeck)
     for (let i = 0; i < deckSpace.length; i++) {
         deckSpace[i].addEventListener('click', () => {
@@ -457,7 +459,6 @@ addEventListener("load", () => {
                 enemyBoard.push(boardSpaces[i])
             }
         }
-
         if(enemyBoard.length > repetition){
             emptyArray(enemyBoard)
             for (let i = 0; i < repetition; i++) {
@@ -483,6 +484,7 @@ addEventListener("load", () => {
                 }
             }
         }
+        twoSpaces = true
         emptyArray(enemyBoard)
     }
 
@@ -587,7 +589,12 @@ addEventListener("load", () => {
         if (attacker.value.attack !== 0) {
             defender.value.health = defender.value.health - attacker.value.attack
             if (defender.value.health <= 0) {
-                removeCardFromBoard(defender)
+                if(defender.value.traits.includes('Caged Wolf')) {
+                    removeCardFromBoard(defender)
+                    selectedCard = allCards[7]
+                } else {
+                    removeCardFromBoard(defender)
+                }
                 if (defender.line === playerLine) {
                     bones = bones + 1
                     bonesCounter.innerText = "Bones: " + bones
