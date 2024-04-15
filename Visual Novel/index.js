@@ -1,8 +1,7 @@
 addEventListener("load", (event) => {
 
     //!!!!!!!BUGS!!!!!!!
-    //Can place card in the second row...
-    //Can draw and place cards on enemy turn...
+
     //NEXT: Guardian
 
     //html elements
@@ -24,155 +23,61 @@ addEventListener("load", (event) => {
     let selectedHand = false
     let sacrificing = []
     let sacrificingComplete = false
+    const enemyPlaceLine = 0
     const enemyLine = 1
     const playerLine = 2
+    const playerPlaceLine = 3
     const boardHeight = 4
     const boardLength = 4
     const squirrelLength = 6
     const enemyDeckLength = 8
     const allCards = [
         {
-            name: 'Kingfisher',
-            cost: {
-                type: 'blood',
-                cost: 1
+            name: 'Kingfisher', cost: {
+                type: 'blood', cost: 1
             },
-            attack: 1,
-            health: 1,
-            traits: [
-                'Waterborne',
-                'Airborne'
-            ],
-            path: 'Cards/Avian/Kingfisher.webp',
-            element: ''
-        },
-        {
-            name: 'Sparrow',
-            cost: {
-                type: 'blood',
-                cost: 1
-            },
-            attack: 1,
-            health: 2,
-            traits: [
-                'Airborne',
-            ],
-            path: 'Cards/Avian/Sparrow.webp',
-            element: ''
-        },
-        {
-            name: 'Raven',
-            cost: {
-                type: 'blood',
-                cost: 2
-            },
-            attack: 2,
-            health: 3,
-            traits: [
-                'Airborne'
-            ],
-            path: 'Cards/Avian/Raven.webp',
-            element: ''
-        },
-        {
-            name: 'Turkey Vulture',
-            cost: {
-                type: 'bones',
-                cost: 8
-            },
-            attack: 3,
-            health: 3,
-            traits: [
-                'Airborne'
-            ],
-            path: 'Cards/Avian/TurkeyVulture.webp',
-            element: ''
-        },
-        {
-            name: 'Stunted Wolf',
-            cost: {
-                type: 'blood',
-                cost: 1
-            },
-            attack: 2,
-            health: 2,
-            traits: [],
-            path: 'Cards/Canine/Stunted_Wolf.webp',
-            element: ''
-        },
-        {
-            name: 'Bloodhound',
-            cost: {
-                type: 'blood',
-                cost: 2
-            },
-            attack: 2,
-            health: 3,
-            traits: [
-                'Guardian'
-            ],
-            path: 'Cards/Canine/Bloodhound.webp',
-            element: ''
-        },
-        {
-            name: 'Caged Wolf',
-            cost: {
-                type: 'blood',
-                cost: 2
-            },
-            attack: 0,
-            health: 6,
-            traits: [
-                'Caged Wolf'
-            ],
-            path: 'Cards/Canine/CagedWolf.webp',
-            element: ''
-        },
-        {
-            name: 'Wolf',
-            cost: {
-                type: 'blood',
-                cost: 2
-            },
-            attack: 3,
-            health: 2,
-            traits: [],
-            path: 'Cards/Canine/Wolf.webp',
-            element: ''
-        },
-        {
-            name: 'Coyote',
-            cost: {
-                type: 'bones',
-                cost: 4
-            },
-            attack: 2,
-            health: 1,
-            traits: [],
-            path: 'Cards/Canine/Coyote.webp',
-            element: ''
-        },
-    ]
+            attack: 1, health: 1, traits: ['Waterborne', 'Airborne'], path: 'Cards/Avian/Kingfisher.webp', element: ''
+        }, {
+            name: 'Sparrow', cost: {
+                type: 'blood', cost: 1
+            }, attack: 1, health: 2, traits: ['Airborne',], path: 'Cards/Avian/Sparrow.webp', element: ''
+        }, {
+            name: 'Raven', cost: {
+                type: 'blood', cost: 2
+            }, attack: 2, health: 3, traits: ['Airborne'], path: 'Cards/Avian/Raven.webp', element: ''
+        }, {
+            name: 'Turkey Vulture', cost: {
+                type: 'bones', cost: 8
+            }, attack: 3, health: 3, traits: ['Airborne'], path: 'Cards/Avian/TurkeyVulture.webp', element: ''
+        }, {
+            name: 'Stunted Wolf', cost: {
+                type: 'blood', cost: 1
+            }, attack: 2, health: 2, traits: [], path: 'Cards/Canine/Stunted_Wolf.webp', element: ''
+        }, {
+            name: 'Bloodhound', cost: {
+                type: 'blood', cost: 2
+            }, attack: 2, health: 3, traits: ['Guardian'], path: 'Cards/Canine/Bloodhound.webp', element: ''
+        }, {
+            name: 'Caged Wolf', cost: {
+                type: 'blood', cost: 2
+            }, attack: 0, health: 6, traits: ['Caged Wolf'], path: 'Cards/Canine/CagedWolf.webp', element: ''
+        }, {
+            name: 'Wolf', cost: {
+                type: 'blood', cost: 2
+            }, attack: 3, health: 2, traits: [], path: 'Cards/Canine/Wolf.webp', element: ''
+        }, {
+            name: 'Coyote', cost: {
+                type: 'bones', cost: 4
+            }, attack: 2, health: 1, traits: [], path: 'Cards/Canine/Coyote.webp', element: ''
+        },]
     let squirrelDeck = [{
-        name: 'Squirrel',
-        cost: {
-            type: 'none',
-            cost: 0
-        },
-        attack: 0,
-        health: 1,
-        traits: [],
-        path: 'Cards/Squirrel.webp',
-        element: ''
+        name: 'Squirrel', cost: {
+            type: 'none', cost: 0
+        }, attack: 0, health: 1, traits: [], path: 'Cards/Squirrel.webp', element: ''
     }]
     let enemyDeck = []
     let waterborne = []
-    const traitRules = [
-        'Airborne: Before attack -> If true, defender.value = false',
-        'Waterborne: After attack -> If true, attacker.img = CardBack // After Enemy turn -> space.img = space.value.path',
-        'Hoarder: Remove',
-        'Fledgling: Remove',
-    ]
+    const traitRules = ['Airborne: Before attack -> If true, defender.value = false', 'Waterborne: After attack -> If true, attacker.img = CardBack // After Enemy turn -> space.img = space.value.path', 'Hoarder: Remove', 'Fledgling: Remove',]
 
 
     //turn
@@ -183,6 +88,10 @@ addEventListener("load", (event) => {
         } else {
             pushBoard(0, 1)
             boardFight(enemyLine, playerLine)
+            twoSpaces = false
+            while (twoSpaces === false) {
+                newEnemyBoard(enemyStartBoard)
+            }
         }
         turn++
         draw = true
@@ -251,7 +160,6 @@ addEventListener("load", (event) => {
                             if (placeCardSpace.length >= selectedCard.cost.cost) {
                                 blackBorder(placeCardSpace)
                                 selectedHand = !selectedHand
-
                             } else {
                                 selectedHand = false
                                 removeBlackBordersAll()
@@ -287,13 +195,12 @@ addEventListener("load", (event) => {
     for (let j = 1; j <= boardLength; j++) {
         for (let i = (j - 1) * boardLength; i < boardLength * j; i++) {
             boardSpaces.push({
-                element: board[i],
-                line: j - 1,
-                column: (i + boardLength) % boardLength,
-                value: null,
+                element: board[i], line: j - 1, column: (i + boardLength) % boardLength, value: null,
             });
         }
     } //mapping board
+
+    //enemy board
     let twoSpaces = false;
     while (twoSpaces === false) {
         newEnemyBoard(enemyStartBoard)
@@ -311,26 +218,33 @@ addEventListener("load", (event) => {
                 if (selectedCard.cost.type === 'blood') {
                     if (sacrificing.length >= selectedCard.cost.cost - 1) {
                         if (sacrificingComplete === true) {
-                            placeCardFromHand(boardSpaces[i], selectedCard)
-                            selectedHand = false
-                            bones = bones + [...sacrificing].length
-                            bonesCounter.innerText = 'Bones: ' + bones
-                            emptyArray(sacrificing)
-                            sacrificingComplete = false
-                            removeBlackBordersAll()
-                        } else {
-                            sacrificing.push(boardSpaces[i])
+                            createPlaceCardSpace()
                             for (let j = 0; j < placeCardSpace.length; j++) {
                                 if (placeCardSpace[j].element === board[i]) {
-                                    for (let j = 0; j < sacrificing.length; j++) {
-                                        blackBorder([sacrificing[j]])
-                                        removeCardFromBoard(sacrificing[j])
-                                    }
+                                    placeCardFromHand(boardSpaces[i], selectedCard)
+                                    selectedHand = false
+                                    bones = bones + [...sacrificing].length
+                                    bonesCounter.innerText = 'Bones: ' + bones
+                                    emptyArray(sacrificing)
+                                    sacrificingComplete = false
+                                    removeBlackBordersAll()
                                 }
                             }
-                            sacrificingComplete = true
-                            createPlaceCardSpace()
-                            blackBorder(placeCardSpace)
+                        } else {
+                            if (boardSpaces[i].value !== null && boardSpaces[i].line === playerPlaceLine) {
+                                sacrificing.push(boardSpaces[i])
+                                for (let j = 0; j < placeCardSpace.length; j++) {
+                                    if (placeCardSpace[j].element === board[i]) {
+                                        for (let j = 0; j < sacrificing.length; j++) {
+                                            blackBorder([sacrificing[j]])
+                                            removeCardFromBoard(sacrificing[j])
+                                        }
+                                    }
+                                }
+                                sacrificingComplete = true
+                                createPlaceCardSpace()
+                                blackBorder(placeCardSpace)
+                            }
                         }
                     } else {
                         sacrificing.push(boardSpaces[i])
@@ -355,7 +269,6 @@ addEventListener("load", (event) => {
 
         })
     }
-
 
     //main functions
     function deckDraw(deck, i) {
@@ -414,38 +327,54 @@ addEventListener("load", (event) => {
 
     function placeCardFromHand(boardSpace, thisCard) {
 
-        placeCard(boardSpace, thisCard)
+        if (boardSpace.line === playerPlaceLine) {
+            placeCard(boardSpace, thisCard)
 
-        blackBorder(placeCardSpace)
+            blackBorder(placeCardSpace)
 
-        hand.splice(hand.indexOf(thisCard), 1);
-        handSpace.removeChild(thisCard.element)
+            hand.splice(hand.indexOf(thisCard), 1);
+            handSpace.removeChild(thisCard.element)
 
-        emptyArray(placeCardSpace)
-        thisCard = null
+            emptyArray(placeCardSpace)
+            thisCard = null
+        }
     }
 
     function newEnemyBoard(repetition) {
         let enemyBoard = []
-        for (let i = 0; i < repetition; i++) {
-            let number = Math.floor(Math.random() * 4)
-            enemyBoard.push(boardSpaces[number])
-        }
-        if (enemyBoard[0] !== enemyBoard[1]) {
-            twoSpaces = true
-            for (let i = 0; i < enemyBoard.length; i++) {
-                const currentSpace = enemyBoard[i]
-                if (currentSpace.value === null) {
-                    const boardSymbol = currentSpace.element.querySelector('i')
-                    currentSpace.element.removeChild(boardSymbol)
-                }
-
-                addCardImage(enemyDeck[0].path, currentSpace.element, enemyLine)
-                currentSpace.value = enemyDeck[0]
-
-                enemyDeck.shift()
+        for (let j = 0; j < boardLength; j++) {
+            if (boardSpaces[j].value === null) {
+                enemyBoard.push(boardSpaces[j])
             }
         }
+        if (enemyBoard.length > repetition) {
+            emptyArray(enemyBoard)
+
+            for (let i = 0; i < repetition; i++) {
+                let number = Math.floor(Math.random() * 4)
+                if (boardSpaces[number] !== null) {
+                    enemyBoard.push(boardSpaces[number])
+                }
+            }
+            if (enemyBoard[0] !== enemyBoard[1]) {
+                twoSpaces = true
+                for (let i = 0; i < enemyBoard.length; i++) {
+                    const currentSpace = enemyBoard[i]
+                    if (currentSpace.value === null) {
+                        const boardSymbol = currentSpace.element.querySelector('i')
+                        currentSpace.element.removeChild(boardSymbol)
+                    }
+
+                    addCardImage(enemyDeck[0].path, currentSpace.element, enemyLine)
+                    currentSpace.value = enemyDeck[0]
+
+                    enemyDeck.shift()
+                }
+            }
+        } else {
+            twoSpaces = true
+        }
+
         emptyArray(enemyBoard)
     }
 
@@ -557,12 +486,11 @@ addEventListener("load", (event) => {
             addCardImage(cardBack, attacker.element, attacker.line)
         } else {
             waterborne.forEach(function (boardSpace) {
-                    if (boardSpace.line === line) {
-                        removeCardImage(boardSpace)
-                        addCardImage(boardSpace.value.path, boardSpace.element, boardSpace.line)
-                    }
+                if (boardSpace.line === line) {
+                    removeCardImage(boardSpace)
+                    addCardImage(boardSpace.value.path, boardSpace.element, boardSpace.line)
                 }
-            )
+            })
         }
     }
 
@@ -634,8 +562,7 @@ addEventListener("load", (event) => {
     function compareArrays(arrayToExtract, arrayToGet, valueToCompare) {
         let newArray = []
         arrayToExtract.forEach(function (arrayToExtract) {
-            if (arrayToExtract[valueToCompare] === arrayToGet)
-                newArray.push(arrayToExtract)
+            if (arrayToExtract[valueToCompare] === arrayToGet) newArray.push(arrayToExtract)
         })
         return newArray
     }
