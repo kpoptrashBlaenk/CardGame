@@ -1,4 +1,4 @@
-addEventListener("load", (event) => {
+addEventListener("load", () => {
 
     //Shortcuts:
     //ctrl + shift + f1 -> comment in/out
@@ -184,12 +184,16 @@ addEventListener("load", (event) => {
 
 
     //turn
-    btnTurn.addEventListener('click', (event) => {
+    btnTurn.addEventListener('click', () => {
         if (turn % 2 === 0) {
             pushBoard(boardHeight - 1, -1)
             boardFight(playerLine, enemyLine)
         } else {
             pushBoard(0, 1)
+            twoSpaces = false
+            while (twoSpaces === false) {
+                newEnemyBoard(enemyStartBoard)
+            }
             boardFight(enemyLine, playerLine)
         }
         turn++
@@ -208,7 +212,7 @@ addEventListener("load", (event) => {
     let currentDeck = shuffleArray(allCards)
     currentDeck = shuffleArray(currentDeck)
     for (let i = 0; i < deckSpace.length; i++) {
-        deckSpace[i].addEventListener('click', (event) => {
+        deckSpace[i].addEventListener('click', () => {
             if (turn % 2 === 0) {
                 if (draw === true) {
                     if (i === 0) {
@@ -302,6 +306,8 @@ addEventListener("load", (event) => {
             });
         }
     } //mapping board
+
+    //enemy board
     let twoSpaces = false;
     while (twoSpaces === false) {
         newEnemyBoard(enemyStartBoard)
@@ -313,7 +319,7 @@ addEventListener("load", (event) => {
     }
 
     for (let i = 0; i < board.length; i++) {
-        board[i].addEventListener('click', (event) => {
+        board[i].addEventListener('click', () => {
 
             if (selectedHand === true) {
                 if (selectedCard.cost.type === 'blood') {
@@ -446,23 +452,35 @@ addEventListener("load", (event) => {
 
     function newEnemyBoard(repetition) {
         let enemyBoard = []
-        for (let i = 0; i < repetition; i++) {
-            let number = Math.floor(Math.random() * 4)
-            enemyBoard.push(boardSpaces[number])
+        for (let i = 0; i < boardLength; i++) {
+            if(boardSpaces[i].value === null) {
+                enemyBoard.push(boardSpaces[i])
+            }
         }
-        if (enemyBoard[0] !== enemyBoard[1]) {
-            twoSpaces = true
-            for (let i = 0; i < enemyBoard.length; i++) {
-                const currentSpace = enemyBoard[i]
-                if (currentSpace.value === null) {
-                    const boardSymbol = currentSpace.element.querySelector('i')
-                    currentSpace.element.removeChild(boardSymbol)
+
+        if(enemyBoard.length > repetition){
+            emptyArray(enemyBoard)
+            for (let i = 0; i < repetition; i++) {
+                let number = Math.floor(Math.random() * 4)
+                if(boardSpaces[number].value === null) {
+                    enemyBoard.push(boardSpaces[number])
                 }
+            }
+            if (enemyBoard[0] !== enemyBoard[1]) {
+                twoSpaces = true
+                for (let i = 0; i < enemyBoard.length; i++) {
+                    const currentSpace = enemyBoard[i]
+                    if (currentSpace.value === null) {
+                        const boardSymbol = currentSpace.element.querySelector('i')
+                        currentSpace.element.removeChild(boardSymbol)
+                    }
 
-                addCardImage(enemyDeck[0].path, currentSpace.element, enemyLine)
-                currentSpace.value = enemyDeck[0]
+                    addCardImage(enemyDeck[0].path, currentSpace.element, enemyLine)
+                    currentSpace.value = enemyDeck[0]
 
-                enemyDeck.shift()
+                    enemyDeck.shift()
+                    twoSpaces = true
+                }
             }
         }
         emptyArray(enemyBoard)
