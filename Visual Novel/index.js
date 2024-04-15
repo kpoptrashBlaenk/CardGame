@@ -211,6 +211,8 @@ addEventListener("load", (event) => {
                     deckDraw(currentDeck, i)
                 }
                 console.log('Play a Card!')
+            } else {
+                console.log('I already drew a card.')
             }
         })
     }
