@@ -208,7 +208,7 @@ addEventListener("load", () => {
     for (let i = 0; i < squirrelLength - 1; i++) {
         squirrelDeck.push(squirrelDeck[i]);
     }
-    let currentDeck= allCards.slice()
+    let currentDeck = allCards.slice()
     shuffleArray(currentDeck)
     for (let i = 0; i < deckSpace.length; i++) {
         deckSpace[i].addEventListener('click', () => {
@@ -331,7 +331,7 @@ addEventListener("load", () => {
                                 removeBlackBordersAll()
                             }
                         } else {
-                            if (boardSpaces[i].value !== null && !sacrificing.some(function(space){
+                            if (boardSpaces[i].value !== null && !sacrificing.some(function (space) {
                                 return space === boardSpaces[i]
                             })) {
                                 sacrificing.push(boardSpaces[i])
@@ -349,7 +349,7 @@ addEventListener("load", () => {
                             }
                         }
                     } else {
-                        if (boardSpaces[i].value !== null && !sacrificing.some(function(space){
+                        if (boardSpaces[i].value !== null && !sacrificing.some(function (space) {
                             return space === boardSpaces[i]
                         })) {
                             sacrificing.push(boardSpaces[i])
@@ -454,15 +454,15 @@ addEventListener("load", () => {
     function newEnemyBoard(repetition) {
         let enemyBoard = []
         for (let i = 0; i < boardLength; i++) {
-            if(boardSpaces[i].value === null) {
+            if (boardSpaces[i].value === null) {
                 enemyBoard.push(boardSpaces[i])
             }
         }
-        if(enemyBoard.length > repetition){
+        if (enemyBoard.length > repetition) {
             emptyArray(enemyBoard)
             for (let i = 0; i < repetition; i++) {
                 let number = Math.floor(Math.random() * 4)
-                if(boardSpaces[number].value === null) {
+                if (boardSpaces[number].value === null) {
                     enemyBoard.push(boardSpaces[number])
                 }
             }
@@ -533,78 +533,80 @@ addEventListener("load", () => {
 
     function boardFightAttack(attacker, defender, defenders, damageMultiplier) {
         if (attacker.value !== null) {
-            return new Promise(resolve => {
-                setTimeout(function () {
-                    let attackerImage = attacker.element.children[0]
+            if (attacker.value.attack !== 0) {
+                return new Promise(resolve => {
+                    setTimeout(function () {
+                        let attackerImage = attacker.element.children[0]
 
-                    if (attacker.line === 1) {
-                        attackerImage.classList.add('trans-top-100')
-                        attackerImage.classList.remove('top-0')
-                        attackerImage.classList.add('top-3')
-                    } else {
-                        attackerImage.classList.add('trans-bot-100')
-                        attackerImage.classList.remove('bottom-0')
-                        attackerImage.classList.add('bottom-3')
-                    }
+                        if (attacker.line === 1) {
+                            attackerImage.classList.add('trans-top-100')
+                            attackerImage.classList.remove('top-0')
+                            attackerImage.classList.add('top-3')
+                        } else {
+                            attackerImage.classList.add('trans-bot-100')
+                            attackerImage.classList.remove('bottom-0')
+                            attackerImage.classList.add('bottom-3')
+                        }
 
-                    if (defender.value === null || attacker.value.traits.includes('Airborne') || defender.value.traits.includes('Waterborne')) {
-                        if (defender.value === null) {
-                            for (let i = 0; i < defenders.length; i++) {
-                                if (defenders[i].value !== null && defenders[i].value.traits.includes('Guardian')) {
-                                    guardianTurn(attacker, defender, defenders[i])
-                                    break;
+                        if (defender.value === null || attacker.value.traits.includes('Airborne') || defender.value.traits.includes('Waterborne')) {
+                            if (defender.value === null && !attacker.value.traits.includes('Airborne')) {
+                                for (let i = 0; i < defenders.length; i++) {
+                                    if (defenders[i].value !== null && defenders[i].value.traits.includes('Guardian')) {
+                                        guardianTurn(attacker, defender, defenders[i])
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                        damage = damage + attacker.value.attack * damageMultiplier
-                    } else {
-                        boardFightAttackSuccess(attacker, defender)
-                    }
-                    damageCounter.innerText = "Damage: " + damage
-
-                    setTimeout(function () {
-                        if (attacker.line === 1) {
-                            attackerImage.classList.add('trans-100')
-                            attackerImage.classList.add('top-0')
-                            attackerImage.classList.remove('top-3')
+                            damage = damage + attacker.value.attack * damageMultiplier
                         } else {
-                            attackerImage.classList.add('trans-100')
-                            attackerImage.classList.add('bottom-0')
-                            attackerImage.classList.remove('bottom-3')
+                            boardFightAttackSuccess(attacker, defender)
                         }
+                        damageCounter.innerText = "Damage: " + damage
 
-                        if (attacker.value.traits.includes('Waterborne')) {
-                            waterborneTurn(true, attacker)
-                        }
-                        resolve()
-                    }, 100)
-                }, 500)
-            })
+                        setTimeout(function () {
+                            if (attacker.line === 1) {
+                                attackerImage.classList.add('trans-100')
+                                attackerImage.classList.add('top-0')
+                                attackerImage.classList.remove('top-3')
+                            } else {
+                                attackerImage.classList.add('trans-100')
+                                attackerImage.classList.add('bottom-0')
+                                attackerImage.classList.remove('bottom-3')
+                            }
+
+                            if (attacker.value.traits.includes('Waterborne')) {
+                                waterborneTurn(true, attacker)
+                            }
+                            resolve()
+                        }, 100)
+                    }, 500)
+                })
+            } else {
+                return Promise.resolve
+            }
         } else {
             return Promise.resolve
         }
     }
 
     function boardFightAttackSuccess(attacker, defender) {
-        console.log(attacker.value)
-        console.log(defender.value)
-        if (attacker.value.attack !== 0) {
-            defender.value.health = defender.value.health - attacker.value.attack
-            if (defender.value.health <= 0) {
-                if(defender.value.traits.includes('Caged Wolf')) {
-                    removeCardFromBoard(defender)
-                    selectedCard = allCards[7]
-                    setTimeout(function() {placeCard(defender, selectedCard)},50)
-                } else {
-                    removeCardFromBoard(defender)
-                }
-                if (defender.line === playerLine) {
-                    bones = bones + 1
-                    bonesCounter.innerText = "Bones: " + bones
-                }
+        defender.value.health = defender.value.health - attacker.value.attack
+        if (defender.value.health <= 0) {
+            if (defender.value.traits.includes('Caged Wolf')) {
+                removeCardFromBoard(defender)
+                selectedCard = allCards[7]
+                setTimeout(function () {
+                    placeCard(defender, selectedCard)
+                }, 50)
             } else {
-                createTempHealth(defender.element, defender.value.health)
+                removeCardFromBoard(defender)
             }
+            if (defender.line === playerLine) {
+                bones = bones + 1
+                bonesCounter.innerText = "Bones: " + bones
+            }
+        } else {
+            createTempHealth(defender.element, defender.value.health)
         }
     }
 
