@@ -6,8 +6,8 @@ addEventListener("load", () => {
     //ctrl + shift + + -> expand
 
     //!!!!!!!BUGS!!!!!!!
-    //enemy board bug
     //same card can be sacrificed twice
+    //Guardian takes damage from airborne
 
     //NEXT: Caged Wolf
 
@@ -194,7 +194,7 @@ addEventListener("load", () => {
             pushBoard(0, 1)
             twoSpaces = false
             while (twoSpaces === false) {
-                newEnemyBoard(enemyStartBoard)
+                newEnemyBoard(1)
             }
             boardFight(enemyLine, playerLine)
         }
@@ -211,8 +211,8 @@ addEventListener("load", () => {
     for (let i = 0; i < squirrelLength - 1; i++) {
         squirrelDeck.push(squirrelDeck[i]);
     }
-    let currentDeck = allCards
-    currentDeck = shuffleArray(currentDeck)
+    let currentDeck= allCards.slice()
+    shuffleArray(currentDeck)
     for (let i = 0; i < deckSpace.length; i++) {
         deckSpace[i].addEventListener('click', () => {
             if (turn % 2 === 0) {
@@ -231,8 +231,6 @@ addEventListener("load", () => {
             }
         })
     }
-
-
     //hand
     let hand = [];
     for (let i = 0; i < 4; i++) {
@@ -291,7 +289,6 @@ addEventListener("load", () => {
             console.log("You can't play a card yet!")
         }
     })
-
 
     //board
     let board = [...boardUnfiltered];
@@ -429,6 +426,7 @@ addEventListener("load", () => {
             boardSpace.element.removeChild(boardSpace.element.querySelector('div'))
         }
 
+
         const symbol = document.createElement('i');
         if (boardSpace.line === 0 || boardSpace.line === boardHeight - 1) {
             symbol.classList.add('fa-solid', 'fa-arrow-up', 'scale-6');
@@ -483,8 +481,9 @@ addEventListener("load", () => {
                     twoSpaces = true
                 }
             }
+        } else {
+            twoSpaces = true
         }
-        twoSpaces = true
         emptyArray(enemyBoard)
     }
 
@@ -592,6 +591,7 @@ addEventListener("load", () => {
                 if(defender.value.traits.includes('Caged Wolf')) {
                     removeCardFromBoard(defender)
                     selectedCard = allCards[7]
+                    setTimeout(function() {placeCard(defender, selectedCard)},50)
                 } else {
                     removeCardFromBoard(defender)
                 }
