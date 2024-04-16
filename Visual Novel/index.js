@@ -6,10 +6,7 @@ addEventListener("load", () => {
     //ctrl + shift + + -> expand
 
     //!!!!!!!BUGS!!!!!!!
-    //same card can be sacrificed twice
     //Guardian takes damage from airborne
-
-    //NEXT: Caged Wolf
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -334,7 +331,9 @@ addEventListener("load", () => {
                                 removeBlackBordersAll()
                             }
                         } else {
-                            if (boardSpaces[i].value !== null) {
+                            if (boardSpaces[i].value !== null && !sacrificing.some(function(space){
+                                return space === boardSpaces[i]
+                            })) {
                                 sacrificing.push(boardSpaces[i])
                                 for (let j = 0; j < placeCardSpace.length; j++) {
                                     if (placeCardSpace[j].element === board[i]) {
@@ -350,7 +349,9 @@ addEventListener("load", () => {
                             }
                         }
                     } else {
-                        if (boardSpaces[i].value !== null) {
+                        if (boardSpaces[i].value !== null && !sacrificing.some(function(space){
+                            return space === boardSpaces[i]
+                        })) {
                             sacrificing.push(boardSpaces[i])
                             for (let j = 0; j < placeCardSpace.length; j++) {
                                 if (placeCardSpace[j].element === board[i]) {
@@ -585,6 +586,8 @@ addEventListener("load", () => {
     }
 
     function boardFightAttackSuccess(attacker, defender) {
+        console.log(attacker.value)
+        console.log(defender.value)
         if (attacker.value.attack !== 0) {
             defender.value.health = defender.value.health - attacker.value.attack
             if (defender.value.health <= 0) {
