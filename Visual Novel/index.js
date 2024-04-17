@@ -7,6 +7,8 @@ addEventListener("load", () => {
 
     //!!!!!!!BUGS!!!!!!!
 
+    // Next: Game end
+
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
     const handSpace = document.getElementById("hand");
@@ -21,7 +23,8 @@ addEventListener("load", () => {
     let damage = 0
     let bones = 0
     let turn = 0
-    let enemyStartBoard = 2
+    let enemyStartBoard = 1
+    const winningPoints = 10
     let draw
     let selectedHand = false
     let sacrificing = []
@@ -32,7 +35,8 @@ addEventListener("load", () => {
     const boardHeight = 4
     const boardLength = 4
     const squirrelLength = 6
-    const enemyDeckLength = 8
+    const enemyDeckLength = 6
+    const playerDeckLength = 8
     const allCards = [
         {
             name: 'Kingfisher',
@@ -168,6 +172,7 @@ addEventListener("load", () => {
         path: 'Cards/Squirrel.webp',
         element: ''
     }]
+    let currentDeck = []
     let enemyDeck = []
     let waterborne = []
     const traitRules = [
@@ -187,9 +192,11 @@ addEventListener("load", () => {
             boardFight(playerLine, enemyLine)
         } else {
             pushBoard(0, 1)
-            twoSpaces = false
-            while (twoSpaces === false) {
-                newEnemyBoard(1)
+            if(enemyDeck.length>0){
+                twoSpaces = false
+                while (twoSpaces === false) {
+                    newEnemyBoard(1)
+                }
             }
             boardFight(enemyLine, playerLine)
         }
@@ -200,14 +207,16 @@ addEventListener("load", () => {
 
     //deck
     for (let i = 0; i < enemyDeckLength; i++) {
-        const yes = Math.floor(Math.random() * allCards.length)
-        enemyDeck.push(allCards[yes]);
+        const random = Math.floor(Math.random() * allCards.length)
+        enemyDeck.push(allCards[random]);
     }
     for (let i = 0; i < squirrelLength - 1; i++) {
         squirrelDeck.push(squirrelDeck[i]);
     }
-    let currentDeck = allCards.slice()
-    shuffleArray(currentDeck)
+    for (let i = 0; i < playerDeckLength; i++) {
+        let random = Math.floor(Math.random() * allCards.length)
+        currentDeck.push(allCards[random])
+    }
     for (let i = 0; i < deckSpace.length; i++) {
         deckSpace[i].addEventListener('click', () => {
             if (turn % 2 === 0) {
@@ -525,6 +534,13 @@ addEventListener("load", () => {
                 btnTurn.innerText = 'Attack'
                 console.log('Draw!')
                 waterborneTurn(false, null, playerLine)
+            }
+            if(damage >= winningPoints || damage <= -winningPoints) {
+                if(turn % 2 === 1 ) {
+                    alert('Enemy reached ' + winningPoints + ' points. You lost')
+                } else {
+                    alert('You reached ' + winningPoints + ' points. You won')
+                }
             }
         })
     }
