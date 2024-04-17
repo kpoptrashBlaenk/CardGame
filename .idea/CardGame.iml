@@ -4,6 +4,8 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="9a524d7cc6" level="application" />
   </component>
   <component name="SonarLintModuleSettings">
     <option name="uniqueId" value="d66cb489-9a8f-4024-bf92-5372344bb9a6" />

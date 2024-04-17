@@ -6,7 +6,6 @@ addEventListener("load", () => {
     //ctrl + shift + + -> expand
 
     //!!!!!!!BUGS!!!!!!!
-    //Guardian takes damage from airborne
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -27,7 +26,6 @@ addEventListener("load", () => {
     let selectedHand = false
     let sacrificing = []
     let sacrificingComplete = false
-    const enemyPlaceLine = 0
     const enemyLine = 1
     const playerLine = 2
     const playerPlaceLine = 3
@@ -595,9 +593,7 @@ addEventListener("load", () => {
             if (defender.value.traits.includes('Caged Wolf')) {
                 removeCardFromBoard(defender)
                 selectedCard = allCards[7]
-                setTimeout(function () {
-                    placeCard(defender, selectedCard)
-                }, 50)
+                placeCard(defender, selectedCard)
             } else {
                 removeCardFromBoard(defender)
             }
@@ -685,6 +681,9 @@ addEventListener("load", () => {
     }
 
     function createTempHealth(boardSpace, health) {
+        if (boardSpace.querySelector('div') !== null) {
+            boardSpace.removeChild(boardSpace.querySelector('div'))
+        }
         const newHealthCircle = document.createElement('div')
         newHealthCircle.classList.add('temp-health')
         const newHealth = document.createElement('p')
