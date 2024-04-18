@@ -7,7 +7,7 @@ addEventListener("load", () => {
 
     //!!!!!!!BUGS!!!!!!!
 
-    // Next: Game end
+    // Next: Many Lives, Sprinter, Touch of Death, Worthy Sacrifice
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -157,6 +157,63 @@ addEventListener("load", () => {
             health: 1,
             traits: [],
             path: 'Cards/Canine/Coyote.webp',
+            element: ''
+        },
+        {
+            name: 'Child 13',
+            cost: {
+                type: 'Blood',
+                cost: 1
+            },
+            attack: 0,
+            health: 1,
+            traits: [
+                'Many Lives',
+            ],
+            path: 'Cards/Hooved/Child13.webp',
+            element: ''
+        },
+        {
+            name: 'Long Elk',
+            cost: {
+                type: 'Bones',
+                cost: 4
+            },
+            attack: 1,
+            health: 2,
+            traits: [
+                'Sprinter',
+                'Touch of Death'
+            ],
+            path: 'Cards/Hooved/Short_elk.webp',
+            element: ''
+        },
+        {
+            name: 'Black Goat',
+            cost: {
+                type: 'Blood',
+                cost: 1
+            },
+            attack: 0,
+            health: 1,
+            traits: [
+                'Worthy Sacrifice',
+            ],
+            path: 'Cards/Hooved/BlackGoat.webp',
+            element: ''
+        },
+        {
+            name: 'Elk',
+            cost: {
+                type: 'Blood',
+                cost: 2
+            },
+            attack: 2,
+            health: 4,
+            traits: [
+                'Sprinter',
+            ],
+            path: 'Cards/Hooved/.webp',
             element: ''
         },
     ]
