@@ -232,14 +232,6 @@ addEventListener("load", () => {
     let currentDeck = []
     let enemyDeck = []
     let waterborne = []
-    const traitRules = [
-        'Airborne: Before attack -> If true, defender.value = false',
-        'Waterborne: After attack -> If true, attacker.img = CardBack // After Enemy turn -> space.img = space.value.path',
-        'Hoarder: Remove',
-        'Fledgling: Remove',
-        'Guardian: If defender.value = null, move guardian towards it',
-        'Caged: If death, then summon'
-    ]
 
 
     //turn
@@ -789,14 +781,6 @@ addEventListener("load", () => {
                 newArray.push(arrayToExtract)
         })
         return newArray
-    }
-
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
     }
 
 });
