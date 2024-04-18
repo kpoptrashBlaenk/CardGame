@@ -7,7 +7,7 @@ addEventListener("load", () => {
 
     //!!!!!!!BUGS!!!!!!!
 
-    // Next: Worthy Sacrifice
+    // Next: Unkillable
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -36,7 +36,7 @@ addEventListener("load", () => {
     const boardLength = 4
     const squirrelLength = 6
     const enemyDeckLength = 6
-    const playerDeckLength = 6
+    const playerDeckLength = 8
     const allCards = [
         {
             name: 'Kingfisher',
@@ -189,20 +189,6 @@ addEventListener("load", () => {
             element: ''
         },
         {
-            name: 'Black Goat',
-            cost: {
-                type: 'blood',
-                cost: 1
-            },
-            attack: 0,
-            health: 1,
-            traits: [
-                'Worthy Sacrifice',
-            ],
-            path: 'Cards/Hooved/BlackGoat.webp',
-            element: ''
-        },
-        {
             name: 'Elk',
             cost: {
                 type: 'blood',
@@ -214,6 +200,48 @@ addEventListener("load", () => {
                 'Sprinter',
             ],
             path: 'Cards/Hooved/Elk.webp',
+            element: ''
+        },
+        {
+            name: 'Bee',
+            cost: {
+                type: 'none',
+                cost: 0
+            },
+            attack: 1,
+            health: 1,
+            traits: [
+                'Airborne',
+            ],
+            path: 'Cards/Insect/Bee.webp',
+            element: ''
+        },
+        {
+            name: 'Beehive',
+            cost: {
+                type: 'blood',
+                cost: 1
+            },
+            attack: 0,
+            health: 2,
+            traits: [
+                'Bees within',
+            ],
+            path: 'Cards/Insect/Beehive.webp',
+            element: ''
+        },
+        {
+            name: 'Cockroach',
+            cost: {
+                type: 'bones',
+                cost: 4
+            },
+            attack: 1,
+            health: 1,
+            traits: [
+                'Unkillable',
+            ],
+            path: 'Cards/Insect/Cockroach.webp',
             element: ''
         },
     ]
@@ -438,21 +466,7 @@ addEventListener("load", () => {
     //main functions
     function deckDraw(deck, i) {
         if (deck.length !== 0) {
-            const td = document.createElement('td');
-            const drawnCard = {
-                name: deck[0].name,
-                cost: deck[0].cost,
-                attack: deck[0].attack,
-                health: deck[0].health,
-                traits: deck[0].traits,
-                path: deck[0].path,
-                element: deck[0].element
-            } //stupid but necessary
-            addCardImage(drawnCard.path, td, playerLine)
-            handSpace.appendChild(td);
-            drawnCard.element = td;
-
-            hand.push(drawnCard);
+            addCardToHand(deck[0])
             deck.shift();
             if (deck.length === 0) {
                 const cardBack = deckSpace[i].querySelector('img')
@@ -658,10 +672,13 @@ addEventListener("load", () => {
 
     function boardFightAttackSuccess(attacker, defender) {
 
-        if(attacker.value.traits.includes('Touch of Death')) {
+        if (attacker.value.traits.includes('Touch of Death')) {
             defender.value.health = 0
         } else {
             defender.value.health = defender.value.health - attacker.value.attack
+        }
+        if (defender.value.traits.includes('Bees within') && turn % 2 === 0) {
+            addCardToHand(allCards[12])
         }
         if (defender.value.health <= 0) {
             if (defender.value.traits.includes('Caged Wolf')) {
@@ -736,6 +753,23 @@ addEventListener("load", () => {
 
 
     //helper functions
+    function addCardToHand(thisCard) {
+        const td = document.createElement('td');
+        const drawnCard = {
+            name: thisCard.name,
+            cost: thisCard.cost,
+            attack: thisCard.attack,
+            health: thisCard.health,
+            traits: thisCard.traits,
+            path: thisCard.path,
+            element: thisCard.element
+        } //stupid but necessary
+        addCardImage(drawnCard.path, td, playerLine)
+        handSpace.appendChild(td);
+        drawnCard.element = td;
+        hand.push(drawnCard);
+    }
+
     function addCardImage(imagePath, element, line) {
         const img = document.createElement('img');
         img.src = imagePath
