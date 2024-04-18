@@ -7,7 +7,7 @@ addEventListener("load", () => {
 
     //!!!!!!!BUGS!!!!!!!
 
-    // Next: Sprinter, Touch of Death, Worthy Sacrifice
+    // Next: Touch of Death, Worthy Sacrifice
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -241,7 +241,7 @@ addEventListener("load", () => {
             boardFight(playerLine, enemyLine)
         } else {
             pushBoard(0, 1)
-            if(enemyDeck.length>0){
+            if (enemyDeck.length > 0) {
                 twoSpaces = false
                 while (twoSpaces === false) {
                     newEnemyBoard(1)
@@ -394,7 +394,7 @@ addEventListener("load", () => {
                                 for (let j = 0; j < placeCardSpace.length; j++) {
                                     if (placeCardSpace[j].element === board[i]) {
                                         for (let j = 0; j < sacrificing.length; j++) {
-                                            if(!sacrificing[j].value.traits.includes('Many Lives')){
+                                            if (!sacrificing[j].value.traits.includes('Many Lives')) {
                                                 removeCardFromBoard(sacrificing[j])
                                             }
                                         }
@@ -581,16 +581,18 @@ addEventListener("load", () => {
 
                 btnTurn.innerText = 'End Turn'
                 waterborneTurn(false, null, enemyLine)
+                sprinterTurn(attackers[0].line)
             } else {
                 btnTurn.innerText = 'Attack'
                 console.log('Draw!')
                 waterborneTurn(false, null, playerLine)
+                sprinterTurn(attackers[0].line)
             }
-            if(damage >= winningPoints || damage <= -winningPoints) {
-                if(turn % 2 === 1 ) {
+            if (damage >= winningPoints || damage <= -winningPoints) {
+                if (turn % 2 === 0) {
                     alert('Enemy reached ' + winningPoints + ' points. You lost')
                 } else {
-                    alert('You reached ' + winningPoints + ' points. You won')
+                    alert('You reached ' + winningPoints + ' points. You won') // No definite ending for debugging purposes
                 }
             }
         })
@@ -693,6 +695,38 @@ addEventListener("load", () => {
         placeCard(defender, thisDefender.value)
         removeCardFromBoard(thisDefender)
         boardFightAttackSuccess(attacker, defender)
+    }
+
+    function sprinterTurn(player) {
+        let sprinterSpaces = []
+        if (player === playerLine) {
+            for (let i = 8; i < 16; i++) {
+                if (boardSpaces[i].value !== null) {
+                    if (boardSpaces[i].value.traits.includes('Sprinter')) {
+                        sprinterSpaces.push({space: boardSpaces[i], index: i})
+                    }
+                }
+            }
+        } else {
+            for (let i = 0; i < 8; i++) {
+                if (boardSpaces[i].value !== null) {
+                    if (boardSpaces[i].value.traits.includes('Sprinter')) {
+                        sprinterSpaces.push({space: boardSpaces[i], index: i})
+                    }
+                }
+            }
+        }
+        for (let i = 0; i < sprinterSpaces.length; i++) {
+            let currentCard = sprinterSpaces[i].space
+            let nextSpace = boardSpaces[sprinterSpaces[i].index + 1]
+            if (currentCard.column !== boardLength - 1 && nextSpace.value === null) {
+                placeCard(nextSpace, currentCard.value)
+                if (currentCard.element.querySelector('div') !== null) {
+                    createTempHealth(nextSpace.element, currentCard.value.health)
+                }
+                removeCardFromBoard(currentCard)
+            }
+        }
     }
 
 
