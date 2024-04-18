@@ -7,7 +7,7 @@ addEventListener("load", () => {
 
     //!!!!!!!BUGS!!!!!!!
 
-    // Next: Many Lives, Sprinter, Touch of Death, Worthy Sacrifice
+    // Next: Sprinter, Touch of Death, Worthy Sacrifice
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -162,7 +162,7 @@ addEventListener("load", () => {
         {
             name: 'Child 13',
             cost: {
-                type: 'Blood',
+                type: 'blood',
                 cost: 1
             },
             attack: 0,
@@ -176,7 +176,7 @@ addEventListener("load", () => {
         {
             name: 'Long Elk',
             cost: {
-                type: 'Bones',
+                type: 'bones',
                 cost: 4
             },
             attack: 1,
@@ -191,7 +191,7 @@ addEventListener("load", () => {
         {
             name: 'Black Goat',
             cost: {
-                type: 'Blood',
+                type: 'blood',
                 cost: 1
             },
             attack: 0,
@@ -205,7 +205,7 @@ addEventListener("load", () => {
         {
             name: 'Elk',
             cost: {
-                type: 'Blood',
+                type: 'blood',
                 cost: 2
             },
             attack: 2,
@@ -213,7 +213,7 @@ addEventListener("load", () => {
             traits: [
                 'Sprinter',
             ],
-            path: 'Cards/Hooved/.webp',
+            path: 'Cards/Hooved/Elk.webp',
             element: ''
         },
     ]
@@ -385,7 +385,7 @@ addEventListener("load", () => {
                 if (selectedCard.cost.type === 'blood') {
                     if (sacrificing.length >= selectedCard.cost.cost - 1) {
                         if (sacrificingComplete === true) {
-                            if (boardSpaces[i].line === playerPlaceLine) {
+                            if (boardSpaces[i].line === playerPlaceLine && boardSpaces[i].value === null) {
                                 placeCardFromHand(boardSpaces[i], selectedCard)
                                 selectedHand = false
                                 bones = bones + [...sacrificing].length
@@ -402,13 +402,15 @@ addEventListener("load", () => {
                                 for (let j = 0; j < placeCardSpace.length; j++) {
                                     if (placeCardSpace[j].element === board[i]) {
                                         for (let j = 0; j < sacrificing.length; j++) {
-                                            blackBorder([sacrificing[j]])
-                                            removeCardFromBoard(sacrificing[j])
+                                            if(!sacrificing[j].value.traits.includes('Many Lives')){
+                                                removeCardFromBoard(sacrificing[j])
+                                            }
                                         }
                                     }
                                 }
                                 sacrificingComplete = true
                                 createPlaceCardSpace()
+                                removeBlackBordersAll()
                                 blackBorder(placeCardSpace)
                             }
                         }
@@ -745,7 +747,7 @@ addEventListener("load", () => {
     }
 
     function createPlaceCardSpace() {
-        emptyArray(placeCardSpace)
+        placeCardSpace = []
         for (let j = 0; j < boardSpaces.length; j++) {
             if (boardSpaces[j].value === null && boardSpaces[j].line === 3) {
                 placeCardSpace.push(boardSpaces[j])
