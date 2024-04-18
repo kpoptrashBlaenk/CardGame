@@ -7,7 +7,7 @@ addEventListener("load", () => {
 
     //!!!!!!!BUGS!!!!!!!
 
-    // Next: Touch of Death, Worthy Sacrifice
+    // Next: Worthy Sacrifice
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -36,7 +36,7 @@ addEventListener("load", () => {
     const boardLength = 4
     const squirrelLength = 6
     const enemyDeckLength = 6
-    const playerDeckLength = 8
+    const playerDeckLength = 6
     const allCards = [
         {
             name: 'Kingfisher',
@@ -657,7 +657,12 @@ addEventListener("load", () => {
     }
 
     function boardFightAttackSuccess(attacker, defender) {
-        defender.value.health = defender.value.health - attacker.value.attack
+
+        if(attacker.value.traits.includes('Touch of Death')) {
+            defender.value.health = 0
+        } else {
+            defender.value.health = defender.value.health - attacker.value.attack
+        }
         if (defender.value.health <= 0) {
             if (defender.value.traits.includes('Caged Wolf')) {
                 removeCardFromBoard(defender)
