@@ -252,8 +252,7 @@ addEventListener("load", () => {
             },
             attack: 1,
             health: 1,
-            traits: [
-            ],
+            traits: [],
             path: 'Cards/Reptile/Geck.webp',
             element: ''
         },
@@ -307,8 +306,7 @@ addEventListener("load", () => {
             },
             attack: 1,
             health: 6,
-            traits: [
-            ],
+            traits: [],
             path: 'Cards/Reptile/RiverSnapper.webp',
             element: ''
         },
@@ -320,8 +318,7 @@ addEventListener("load", () => {
             },
             attack: 3,
             health: 1,
-            traits: [
-            ],
+            traits: [],
             path: 'Cards/Reptile/Rattler.webp',
             element: ''
         },
@@ -531,7 +528,7 @@ addEventListener("load", () => {
                 } else {
                     for (let j = 0; j < placeCardSpace.length; j++) {
                         if (placeCardSpace[j].element === board[i]) {
-                            if(selectedCard.cost.type === 'bones') {
+                            if (selectedCard.cost.type === 'bones') {
                                 bones = bones - selectedCard.cost.cost
                                 bonesCounter.innerText = "Bones: " + bones
                             }
@@ -723,7 +720,11 @@ addEventListener("load", () => {
                                     }
                                 }
                             }
-                            damage = damage + attacker.value.attack * damageMultiplier
+                            if (defender.value !== null && attacker.value.traits.includes('Airborne') && defender.value.traits.includes('Mighty Leap')) {
+                                boardFightAttackSuccess(attacker, defender)
+                            } else {
+                                damage = damage + attacker.value.attack * damageMultiplier
+                            }
                         } else {
                             boardFightAttackSuccess(attacker, defender)
                         }
@@ -766,7 +767,7 @@ addEventListener("load", () => {
             addCardToHand(allCards[12])
         }
         if (defender.value.health <= 0) {
-            if(defender.value.traits.includes('Unkillable') && defender.line === playerLine) {
+            if (defender.value.traits.includes('Unkillable') && defender.line === playerLine) {
                 addCardToHand(defender.value)
             }
             if (defender.value.traits.includes('Caged Wolf')) {
