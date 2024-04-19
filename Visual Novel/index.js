@@ -7,7 +7,7 @@ addEventListener("load", () => {
 
     //!!!!!!!BUGS!!!!!!!
 
-    // Next: Unkillable
+    // Next:
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -677,10 +677,13 @@ addEventListener("load", () => {
         } else {
             defender.value.health = defender.value.health - attacker.value.attack
         }
-        if (defender.value.traits.includes('Bees within') && turn % 2 === 0) {
+        if (defender.value.traits.includes('Bees within') && defender.line === playerLine) {
             addCardToHand(allCards[12])
         }
         if (defender.value.health <= 0) {
+            if(defender.value.traits.includes('Unkillable') && defender.line === playerLine) {
+                addCardToHand(defender.value)
+            }
             if (defender.value.traits.includes('Caged Wolf')) {
                 removeCardFromBoard(defender)
                 selectedCard = allCards[7]
