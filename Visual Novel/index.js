@@ -7,7 +7,7 @@ addEventListener("load", () => {
 
     //!!!!!!!BUGS!!!!!!!
 
-    // Next:
+    // Next: Mighty Leap
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -242,6 +242,87 @@ addEventListener("load", () => {
                 'Unkillable',
             ],
             path: 'Cards/Insect/Cockroach.webp',
+            element: ''
+        },
+        {
+            name: 'Geck',
+            cost: {
+                type: 'none',
+                cost: 0
+            },
+            attack: 1,
+            health: 1,
+            traits: [
+            ],
+            path: 'Cards/Reptile/Geck.webp',
+            element: ''
+        },
+        {
+            name: 'Ouroboros',
+            cost: {
+                type: 'blood',
+                cost: 2
+            },
+            attack: 1,
+            health: 1,
+            traits: [
+                'Unkillable',
+            ],
+            path: 'Cards/Reptile/Ouroboros.webp',
+            element: ''
+        },
+        {
+            name: 'Bullfrog',
+            cost: {
+                type: 'blood',
+                cost: 1
+            },
+            attack: 1,
+            health: 2,
+            traits: [
+                'Mighty Leap',
+            ],
+            path: 'Cards/Reptile/Bullfrog.webp',
+            element: ''
+        },
+        {
+            name: 'Adder',
+            cost: {
+                type: 'blood',
+                cost: 2
+            },
+            attack: 1,
+            health: 1,
+            traits: [
+                'Touch of Death',
+            ],
+            path: 'Cards/Reptile/Adder_emission.webp',
+            element: ''
+        },
+        {
+            name: 'River Snapper',
+            cost: {
+                type: 'blood',
+                cost: 2
+            },
+            attack: 1,
+            health: 6,
+            traits: [
+            ],
+            path: 'Cards/Reptile/RiverSnapper.webp',
+            element: ''
+        },
+        {
+            name: 'Rattler',
+            cost: {
+                type: 'bones',
+                cost: 6
+            },
+            attack: 3,
+            health: 1,
+            traits: [
+            ],
+            path: 'Cards/Reptile/Rattler.webp',
             element: ''
         },
     ]
