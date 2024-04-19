@@ -416,7 +416,7 @@ addEventListener("load", () => {
             health: 3,
             traits: [
             ],
-            path: 'Cards/Miscellaneous/Stoat.webp',
+            path: 'Cards/Miscellaneous/StoatTalking.webp',
             element: ''
         },
         {
