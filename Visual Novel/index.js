@@ -6,9 +6,8 @@ addEventListener("load", () => {
     //ctrl + shift + + -> expand
 
     //!!!!!!!BUGS!!!!!!!
-    // Guardian !== Burrower (Guardian -> when enemy places card not fight)
 
-    // Next: Trinket Bearer, Burrower, Sharp Quils, Rabbit Hole, Fecundity, Bone King,
+    // Next: Trinket Bearer, Sharp Quils, Rabbit Hole, Fecundity, Bone King,
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -106,20 +105,6 @@ addEventListener("load", () => {
             health: 2,
             traits: [],
             path: 'Cards/Canine/Stunted_Wolf.webp',
-            element: ''
-        },
-        {
-            name: 'Bloodhound',
-            cost: {
-                type: 'blood',
-                cost: 2
-            },
-            attack: 2,
-            health: 3,
-            traits: [
-                'Guardian'
-            ],
-            path: 'Cards/Canine/Bloodhound.webp',
             element: ''
         },
         {
@@ -336,18 +321,6 @@ addEventListener("load", () => {
                 'Burrower'
             ],
             path: 'Cards/Miscellaneous/MoleMan.webp',
-            element: ''
-        },
-        {
-            name: 'Amalgam',
-            cost: {
-                type: 'blood',
-                cost: 2
-            },
-            attack: 3,
-            health: 3,
-            traits: [],
-            path: 'Cards/Miscellaneous/Amalgam.htm',
             element: ''
         },
         {
@@ -934,8 +907,8 @@ addEventListener("load", () => {
                         if (defender.value === null || attacker.value.traits.includes('Airborne') || defender.value.traits.includes('Waterborne')) {
                             if (defender.value === null && !attacker.value.traits.includes('Airborne')) {
                                 for (let i = 0; i < defenders.length; i++) {
-                                    if (defenders[i].value !== null && defenders[i].value.traits.includes('Guardian')) {
-                                        guardianTurn(attacker, defender, defenders[i])
+                                    if (defenders[i].value !== null && defenders[i].value.traits.includes('Burrower')) {
+                                        burrowerTurn(attacker, defender, defenders[i])
                                         break;
                                     }
                                 }
@@ -1022,7 +995,7 @@ addEventListener("load", () => {
         }
     }
 
-    function guardianTurn(attacker, defender, thisDefender) {
+    function burrowerTurn(attacker, defender, thisDefender) {
         placeCard(defender, thisDefender.value)
         removeCardFromBoard(thisDefender)
         boardFightAttackSuccess(attacker, defender)
