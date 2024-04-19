@@ -6,8 +6,9 @@ addEventListener("load", () => {
     //ctrl + shift + + -> expand
 
     //!!!!!!!BUGS!!!!!!!
+    // Guardian !== Burrower (Guardian -> when enemy places card not fight)
 
-    // Next: Mighty Leap
+    // Next: Trinket Bearer, Burrower, Sharp Quils, Rabbit Hole, Fecundity, Bone King,
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -320,6 +321,225 @@ addEventListener("load", () => {
             health: 1,
             traits: [],
             path: 'Cards/Reptile/Rattler.webp',
+            element: ''
+        },
+        {
+            name: 'Mole Man',
+            cost: {
+                type: 'blood',
+                cost: 1
+            },
+            attack: 0,
+            health: 6,
+            traits: [
+                'Mighty Leap',
+                'Burrower'
+            ],
+            path: 'Cards/Miscellaneous/MoleMan.webp',
+            element: ''
+        },
+        {
+            name: 'Amalgam',
+            cost: {
+                type: 'blood',
+                cost: 2
+            },
+            attack: 3,
+            health: 3,
+            traits: [],
+            path: 'Cards/Miscellaneous/Amalgam.htm',
+            element: ''
+        },
+        {
+            name: 'Pack Rat',
+            cost: {
+                type: 'blood',
+                cost: 2
+            },
+            attack: 2,
+            health: 2,
+            traits: [
+                'Trinket Bearer',
+            ],
+            path: 'Cards/Miscellaneous/PackRat.webp',
+            element: ''
+        },
+        {
+            name: 'Urayuli',
+            cost: {
+                type: 'blood',
+                cost: 4
+            },
+            attack: 7,
+            health: 7,
+            traits: [
+            ],
+            path: 'Cards/Miscellaneous/Urayuli.webp',
+            element: ''
+        },
+        {
+            name: 'Cat',
+            cost: {
+                type: 'blood',
+                cost: 1
+            },
+            attack: 0,
+            health: 1,
+            traits: [
+                'Many Lives',
+            ],
+            path: 'Cards/Miscellaneous/Cat.webp',
+            element: ''
+        },
+        {
+            name: 'Mole',
+            cost: {
+                type: 'blood',
+                cost: 1
+            },
+            attack: 0,
+            health: 4,
+            traits: [
+                'Burrower',
+            ],
+            path: 'Cards/Miscellaneous/Mole.webp',
+            element: ''
+        },
+        {
+            name: 'Porcupine',
+            cost: {
+                type: 'blood',
+                cost: 1
+            },
+            attack: 1,
+            health: 2,
+            traits: [
+                'Sharp Quils',
+            ],
+            path: 'Cards/Miscellaneous/Porcupine.webp',
+            element: ''
+        },
+        {
+            name: 'River Otter',
+            cost: {
+                type: 'blood',
+                cost: 1
+            },
+            attack: 1,
+            health: 1,
+            traits: [
+                'Waterborne',
+            ],
+            path: 'Cards/Miscellaneous/RiverOtter.webp',
+            element: ''
+        },
+        {
+            name: 'Stoat',
+            cost: {
+                type: 'blood',
+                cost: 1
+            },
+            attack: 1,
+            health: 3,
+            traits: [
+            ],
+            path: 'Cards/Miscellaneous/Stoat.webp',
+            element: ''
+        },
+        {
+            name: 'Warren',
+            cost: {
+                type: 'blood',
+                cost: 1
+            },
+            attack: 0,
+            health: 2,
+            traits: [
+                'Rabbit Hole',
+            ],
+            path: 'Cards/Miscellaneous/Warren.webp',
+            element: ''
+        },
+        {
+            name: 'Field Mice',
+            cost: {
+                type: 'blood',
+                cost: 2
+            },
+            attack: 2,
+            health: 2,
+            traits: [
+                'Fecundity',
+            ],
+            path: 'Cards/Miscellaneous/FieldMice.webp',
+            element: ''
+        },
+        {
+            name: 'Rat King',
+            cost: {
+                type: 'blood',
+                cost: 2
+            },
+            attack: 2,
+            health: 1,
+            traits: [
+                'Bone King',
+            ],
+            path: 'Cards/Miscellaneous/RatKing.webp',
+            element: ''
+        },
+        {
+            name: 'Great White',
+            cost: {
+                type: 'blood',
+                cost: 3
+            },
+            attack: 4,
+            health: 2,
+            traits: [
+                'Waterborne',
+            ],
+            path: 'Cards/Miscellaneous/GreatWhite.webp',
+            element: ''
+        },
+        {
+            name: 'Grizzly',
+            cost: {
+                type: 'blood',
+                cost: 3
+            },
+            attack: 4,
+            health: 6,
+            traits: [
+            ],
+            path: 'Cards/Miscellaneous/Grizzly.webp',
+            element: ''
+        },
+        {
+            name: 'Opossum',
+            cost: {
+                type: 'bones',
+                cost: 2
+            },
+            attack: 1,
+            health: 1,
+            traits: [
+            ],
+            path: 'Cards/Miscellaneous/Opossum.webp',
+            element: ''
+        },
+        {
+            name: 'Bat',
+            cost: {
+                type: 'bones',
+                cost: 4
+            },
+            attack: 2,
+            health: 1,
+            traits: [
+                'Airborne',
+            ],
+            path: 'Cards/Miscellaneous/Bat.webp',
             element: ''
         },
     ]
