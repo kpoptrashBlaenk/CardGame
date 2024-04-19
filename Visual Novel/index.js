@@ -450,6 +450,10 @@ addEventListener("load", () => {
                 } else {
                     for (let j = 0; j < placeCardSpace.length; j++) {
                         if (placeCardSpace[j].element === board[i]) {
+                            if(selectedCard.cost.type === 'bones') {
+                                bones = bones - selectedCard.cost.cost
+                                bonesCounter.innerText = "Bones: " + bones
+                            }
                             placeCardFromHand(boardSpaces[i], selectedCard)
                             selectedHand = false
                             blackBorder(placeCardSpace)
