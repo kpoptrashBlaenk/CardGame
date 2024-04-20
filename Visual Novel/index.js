@@ -7,7 +7,7 @@ addEventListener("load", () => {
 
     //!!!!!!!BUGS!!!!!!!
 
-    // Next: Sharp Quils (function of taking damage), Fecundity, Bone King,
+    // Next: Sharp Quils (function of taking damage), Bone King,
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -806,7 +806,11 @@ addEventListener("load", () => {
         }
 
         if (thisCard.traits.includes('Rabbit Hole')) {
-            addCardToHand(sideCards[0])
+            addCardToHand(sideCards[1])
+        }
+
+        if (thisCard.traits.includes('Fecundity')) {
+            addCardToHand(thisCard)
         }
 
         blackBorder(placeCardSpace)
