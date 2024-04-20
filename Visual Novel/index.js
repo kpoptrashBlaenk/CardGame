@@ -7,7 +7,7 @@ addEventListener("load", () => {
 
     //!!!!!!!BUGS!!!!!!!
 
-    // Next: Sharp Quils (function of taking damage), Bone King,
+    // Next: Sharp Quils (function of taking damage)
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -521,8 +521,7 @@ addEventListener("load", () => {
             },
             attack: 0,
             health: 1,
-            traits: [
-            ],
+            traits: [],
             path: 'Cards/Miscellaneous/Rabbit.webp',
             element: ''
         },
@@ -705,7 +704,7 @@ addEventListener("load", () => {
                                     if (placeCardSpace[j].element === board[i]) {
                                         for (let j = 0; j < sacrificing.length; j++) {
                                             if (!sacrificing[j].value.traits.includes('Many Lives')) {
-                                                removeCardFromBoard(sacrificing[j])
+                                                creatureDie(sacrificing[j])
                                             }
                                         }
                                     }
@@ -801,7 +800,7 @@ addEventListener("load", () => {
         placeCard(boardSpace, thisCard)
 
         if (thisCard.traits.includes('Trinket Bearer')) {
-            let trinketBearerCard = allCards[Math.round(Math.random()*allCards.length)]
+            let trinketBearerCard = allCards[Math.round(Math.random() * allCards.length)]
             addCardToHand(trinketBearerCard)
         }
 
@@ -984,23 +983,32 @@ addEventListener("load", () => {
             addCardToHand(sideCards[0])
         }
         if (defender.value.health <= 0) {
-            if (defender.value.traits.includes('Unkillable') && defender.line === playerLine) {
-                addCardToHand(defender.value)
-            }
             if (defender.value.traits.includes('Caged Wolf')) {
                 removeCardFromBoard(defender)
                 selectedCard = allCards[7]
                 placeCard(defender, selectedCard)
-            } else {
-                removeCardFromBoard(defender)
             }
-            if (defender.line === playerLine) {
-                bones = bones + 1
-                bonesCounter.innerText = "Bones: " + bones
-            }
+            creatureDie(defender)
         } else {
             createTempHealth(defender.element, defender.value.health)
         }
+    }
+
+    function creatureDie(defender) {
+
+        if (defender.line <= playerLine) {
+            if (defender.value.traits.includes('Bone King')) {
+                bones = bones + 4
+            } else {
+                bones = bones + 1
+            }
+            if (defender.value.traits.includes('Unkillable')) {
+                addCardToHand(defender.value)
+            }
+            bonesCounter.innerText = "Bones: " + bones
+        }
+
+        removeCardFromBoard(defender)
     }
 
     function waterborneTurn(condition, attacker, line) {
