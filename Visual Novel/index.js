@@ -345,8 +345,7 @@ addEventListener("load", () => {
             },
             attack: 7,
             health: 7,
-            traits: [
-            ],
+            traits: [],
             path: 'Cards/Miscellaneous/Urayuli.webp',
             element: ''
         },
@@ -414,8 +413,7 @@ addEventListener("load", () => {
             },
             attack: 1,
             health: 3,
-            traits: [
-            ],
+            traits: [],
             path: 'Cards/Miscellaneous/StoatTalking.webp',
             element: ''
         },
@@ -483,8 +481,7 @@ addEventListener("load", () => {
             },
             attack: 4,
             health: 6,
-            traits: [
-            ],
+            traits: [],
             path: 'Cards/Miscellaneous/Grizzly.webp',
             element: ''
         },
@@ -496,8 +493,7 @@ addEventListener("load", () => {
             },
             attack: 1,
             health: 1,
-            traits: [
-            ],
+            traits: [],
             path: 'Cards/Miscellaneous/Opossum.webp',
             element: ''
         },
@@ -788,6 +784,11 @@ addEventListener("load", () => {
     function placeCardFromHand(boardSpace, thisCard) {
 
         placeCard(boardSpace, thisCard)
+
+        if (thisCard.traits.includes('Trinket Bearer')) {
+            let trinketBearerCard = allCards[Math.round(Math.random()*allCards.length)]
+            addCardToHand(trinketBearerCard)
+        }
 
         blackBorder(placeCardSpace)
 
