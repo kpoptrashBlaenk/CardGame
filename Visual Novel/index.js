@@ -7,7 +7,7 @@ addEventListener("load", () => {
 
     //!!!!!!!BUGS!!!!!!!
 
-    // Next: Trinket Bearer, Sharp Quils, Rabbit Hole, Fecundity, Bone King,
+    // Next: Sharp Quils (function of taking damage), Fecundity, Bone King,
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -186,20 +186,6 @@ addEventListener("load", () => {
                 'Sprinter',
             ],
             path: 'Cards/Hooved/Elk.webp',
-            element: ''
-        },
-        {
-            name: 'Bee',
-            cost: {
-                type: 'none',
-                cost: 0
-            },
-            attack: 1,
-            health: 1,
-            traits: [
-                'Airborne',
-            ],
-            path: 'Cards/Insect/Bee.webp',
             element: ''
         },
         {
@@ -512,6 +498,35 @@ addEventListener("load", () => {
             element: ''
         },
     ]
+    const sideCards = [
+        {
+            name: 'Bee',
+            cost: {
+                type: 'none',
+                cost: 0
+            },
+            attack: 1,
+            health: 1,
+            traits: [
+                'Airborne',
+            ],
+            path: 'Cards/Insect/Bee.webp',
+            element: ''
+        },
+        {
+            name: 'Rabbit',
+            cost: {
+                type: 'none',
+                cost: 0
+            },
+            attack: 0,
+            health: 1,
+            traits: [
+            ],
+            path: 'Cards/Miscellaneous/Rabbit.webp',
+            element: ''
+        },
+    ]
     let squirrelDeck = [{
         name: 'Squirrel',
         cost: {
@@ -790,6 +805,10 @@ addEventListener("load", () => {
             addCardToHand(trinketBearerCard)
         }
 
+        if (thisCard.traits.includes('Rabbit Hole')) {
+            addCardToHand(sideCards[0])
+        }
+
         blackBorder(placeCardSpace)
 
         hand.splice(hand.indexOf(thisCard), 1);
@@ -958,7 +977,7 @@ addEventListener("load", () => {
             defender.value.health = defender.value.health - attacker.value.attack
         }
         if (defender.value.traits.includes('Bees within') && defender.line === playerLine) {
-            addCardToHand(allCards[12])
+            addCardToHand(sideCards[0])
         }
         if (defender.value.health <= 0) {
             if (defender.value.traits.includes('Unkillable') && defender.line === playerLine) {
