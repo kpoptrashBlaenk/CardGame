@@ -6,8 +6,9 @@ addEventListener("load", () => {
     //ctrl + shift + + -> expand
 
     //!!!!!!!BUGS!!!!!!!
+    // unkillable works still when it's enemies'
 
-    // Next: Sharp Quils (function of taking damage)
+    // Next:
 
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
@@ -937,12 +938,12 @@ addEventListener("load", () => {
                                 }
                             }
                             if (defender.value !== null && attacker.value.traits.includes('Airborne') && defender.value.traits.includes('Mighty Leap')) {
-                                boardFightAttackSuccess(attacker, defender)
+                                creatureTakeDamage(attacker, defender, attacker.value.attack)
                             } else {
                                 damage = damage + attacker.value.attack * damageMultiplier
                             }
                         } else {
-                            boardFightAttackSuccess(attacker, defender)
+                            creatureTakeDamage(attacker, defender, attacker.value.attack)
                         }
                         damageCounter.innerText = "Damage: " + damage
 
@@ -956,9 +957,10 @@ addEventListener("load", () => {
                                 attackerImage.classList.add('bottom-0')
                                 attackerImage.classList.remove('bottom-3')
                             }
-
-                            if (attacker.value.traits.includes('Waterborne')) {
-                                waterborneTurn(true, attacker)
+                            if(attacker.value !== null) {
+                                if (attacker.value.traits.includes('Waterborne')) {
+                                    waterborneTurn(true, attacker)
+                                }
                             }
                             resolve()
                         }, 100)
@@ -972,12 +974,16 @@ addEventListener("load", () => {
         }
     }
 
-    function boardFightAttackSuccess(attacker, defender) {
-
+    function creatureTakeDamage(attacker, defender, damage) {
+        let sharpQuils = null
+        if(defender.value.traits.includes('Sharp Quils')) {
+            sharpQuils = JSON.parse(JSON.stringify(defender))
+        }
         if (attacker.value.traits.includes('Touch of Death')) {
             defender.value.health = 0
         } else {
-            defender.value.health = defender.value.health - attacker.value.attack
+            console.log(defender.value.health, damage)
+            defender.value.health = defender.value.health - damage
         }
         if (defender.value.traits.includes('Bees within') && defender.line === playerLine) {
             addCardToHand(sideCards[0])
@@ -991,6 +997,10 @@ addEventListener("load", () => {
             creatureDie(defender)
         } else {
             createTempHealth(defender.element, defender.value.health)
+        }
+
+        if(sharpQuils !== null) {
+            creatureTakeDamage(sharpQuils, attacker, 1)
         }
     }
 
@@ -1030,7 +1040,7 @@ addEventListener("load", () => {
     function burrowerTurn(attacker, defender, thisDefender) {
         placeCard(defender, thisDefender.value)
         removeCardFromBoard(thisDefender)
-        boardFightAttackSuccess(attacker, defender)
+        creatureTakeDamage(attacker, defender, attacker.value.attack)
     }
 
     function sprinterTurn(player) {
