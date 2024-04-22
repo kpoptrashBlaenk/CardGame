@@ -84,12 +84,14 @@
 
     <div class="position-absolute position-relative side">
         <!--Damage-->
-        <div  id="damage" style="top:-20vh;font-size:80%;width:15vh;" class="text-center position-absolute start-50 translate-middle-x">
+        <div id="damage" style="top:-20vh;font-size:80%;width:15vh;"
+             class="text-center position-absolute start-50 translate-middle-x">
             Damage: 0
         </div>
 
         <!--Bones-->
-        <div  id="bones" style="top:-10vh;font-size:80%;width:15vh;" class="text-center position-absolute start-50 translate-middle-x">
+        <div id="bones" style="top:-10vh;font-size:80%;width:15vh;"
+             class="text-center position-absolute start-50 translate-middle-x">
             Bones: 0
         </div>
 
@@ -109,6 +111,20 @@
             </tr>
         </table>
     </div>
+</div>
+<div style="height:75vh;width:25vw;border:1px solid;margin-right:0.9vw;padding:1vh" class="position-absolute end-0 top-50 translate-middle-y text-wrap">
+    <p class="text-center fs-2">RULES:</p>
+    <p class="fs-6">1) Draw either from the squirrel or your deck.</p>
+    <p class="fs-6">2) A card is playable if it has no cost.
+    <p class="fs-6">3) If it costs blood, you will need to sacrifice a card from the board.</p>
+    <p class="fs-6">4) If it costs bones, you will have to consume the given number of bones. Bones are collected when a friendly card dies.</p>
+    <p class="fs-6">5) Click the attack button to attack. After, click on the enemy turn button to let your enemy play.</p>
+    <p class="fs-6">6) When there is no enemy card, the card attacks directly and inflicts damage.</p>
+    <p class="fs-6">7) When there is an enemy card, the card will attack and deal damage to it.</p>
+    <p class="fs-6">8) The first one to reach 10 damage wins.</p>
+</div>
+<div id="symbolBox" style="height:95vh;width:25vw;border:1px solid;margin-left:0.9vw;padding:1vh" class="position-absolute start-0 top-50 translate-middle-y text-wrap">
+    <p class="text-center" style="font-size:5vh">TRAITS:</p>
 </div>
 
 <script src="index.js"></script>

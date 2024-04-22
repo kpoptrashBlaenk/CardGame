@@ -9,6 +9,61 @@ addEventListener("load", () => {
 
     // Next:
 
+    //rules html:
+    let symbolsPic = [
+        "Symbols/Airborne.webp",
+        "Symbols/BeesWithin.webp",
+        "Symbols/BoneKing.webp",
+        "Symbols/Burrower.webp",
+        "Symbols/Fecundity.webp",
+        "Symbols/ManyLives.webp",
+        "Symbols/MightyLeap.webp",
+        "Symbols/RabbitHole.webp",
+        "Symbols/SharpQuils.webp",
+        "Symbols/Sprinter.webp",
+        "Symbols/TouchOfDeath.webp",
+        "Symbols/TrinketBearer.webp",
+        "Symbols/Unkillable.webp",
+        "Symbols/Waterborne.webp",
+    ]
+    let symbolsText = [
+        "This card will ignore opposing cards and strike an opponent directly.",
+        "When this card is struck, a Bee is created in your hand.",
+        "When this card dies, 4 Bones are awarded instead of 1.",
+        "This card will move to any empty space that is attacked by an enemy to block it.",
+        "When this card is played, a copy of it enters your hand.",
+        "When this card is sacrificed, it does not perish.",
+        "This card blocks opposing Airborne creatures.",
+        "When this card is played, a Rabbit is created in your hand.",
+        "Once this card is struck, the striker is dealt 1 damage.",
+        "At the end of the owner's turn, this card moves in the sigil's direction.",
+        "This card instantly kills any card it damages.",
+        "When this card is played, you will receive an item if you have room.",
+        "When this card perishes, a copy of it enters your hand.",
+        "On the opponent's turn, creatures attacking this card's space attack directly.",
+    ]
+    const symbolBox = document.getElementById('symbolBox')
+    for (let i = 0; i < symbolsPic.length; i++) {
+
+        let flexDiv = document.createElement('div')
+        flexDiv.classList.add('d-flex', 'flex-row')
+
+        let flexDivImg = document.createElement('img')
+        flexDivImg.src = symbolsPic[i]
+        flexDivImg.style.height = "3vh"
+        flexDivImg.style.width = "3vh"
+
+        let flexDivParagraph = document.createElement('p')
+        flexDivParagraph.style.marginLeft = "1vh"
+        flexDivParagraph.style.fontSize = "1.8vh"
+        flexDivParagraph.innerText = symbolsText[i]
+
+        flexDiv.appendChild(flexDivImg)
+        flexDiv.appendChild(flexDivParagraph)
+        symbolBox.appendChild(flexDiv)
+    }
+
+
     //html elements
     const deckSpace = document.querySelectorAll("#deck td");
     const handSpace = document.getElementById("hand");
