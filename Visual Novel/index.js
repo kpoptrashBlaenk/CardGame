@@ -786,10 +786,30 @@ addEventListener("load", () => {
 
 
         const symbol = document.createElement('i');
-        if (boardSpace.line === 0 || boardSpace.line === boardHeight - 1) {
+        switch (boardSpace.line) {
+            case enemyLine - 1:
+                symbol.classList.add('fa-solid', 'fa-arrow-down', 'scale-6')
+                break;
+            case enemyLine:
+                symbol.classList.add('fa-solid', 'fa-paw', 'scale-6', 'rotate-180');
+                break;
+            case playerLine:
+                symbol.classList.add('fa-solid', 'fa-paw', 'scale-6');
+                break;
+            case playerPlaceLine:
+                symbol.classList.add('fa-solid', 'fa-arrow-up', 'scale-6');
+                break;
+        }
+
+
+        if (boardSpace.line === playerLine || boardSpace.line === enemyLine) {
+            if (boardSpace.line === playerLine) {
+            }
+            symbol.classList.add('fa-solid', 'fa-paw', 'scale-6');
+        } else if (boardSpace.line === playerPlaceLine) {
             symbol.classList.add('fa-solid', 'fa-arrow-up', 'scale-6');
         } else {
-            symbol.classList.add('fa-solid', 'fa-paw', 'scale-6');
+            symbol.classList.add('fa-solid', 'fa-arrow-down', 'scale-6');
         }
         boardSpace.element.appendChild(symbol);
         boardSpace.value = null
@@ -956,7 +976,7 @@ addEventListener("load", () => {
                                 attackerImage.classList.add('bottom-0')
                                 attackerImage.classList.remove('bottom-3')
                             }
-                            if(attacker.value !== null) {
+                            if (attacker.value !== null) {
                                 if (attacker.value.traits.includes('Waterborne')) {
                                     waterborneTurn(true, attacker)
                                 }
@@ -975,7 +995,7 @@ addEventListener("load", () => {
 
     function creatureTakeDamage(attacker, defender, damage) {
         let sharpQuils = null
-        if(defender.value.traits.includes('Sharp Quils')) {
+        if (defender.value.traits.includes('Sharp Quils')) {
             sharpQuils = JSON.parse(JSON.stringify(defender))
         }
         if (attacker.value.traits.includes('Touch of Death')) {
@@ -998,7 +1018,7 @@ addEventListener("load", () => {
             createTempHealth(defender.element, defender.value.health)
         }
 
-        if(sharpQuils !== null) {
+        if (sharpQuils !== null) {
             creatureTakeDamage(sharpQuils, attacker, 1)
         }
     }
