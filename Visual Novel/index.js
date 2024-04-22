@@ -6,7 +6,6 @@ addEventListener("load", () => {
     //ctrl + shift + + -> expand
 
     //!!!!!!!BUGS!!!!!!!
-    // unkillable works still when it's enemies'
 
     // Next:
 
@@ -1006,7 +1005,7 @@ addEventListener("load", () => {
 
     function creatureDie(defender) {
 
-        if (defender.line <= playerLine) {
+        if (defender.line >= playerLine) {
             if (defender.value.traits.includes('Bone King')) {
                 bones = bones + 4
             } else {
